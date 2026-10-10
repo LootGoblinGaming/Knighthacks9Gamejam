@@ -7,6 +7,9 @@
 class AArsenalProjectileBase;
 class UStaticMeshComponent;
 class USceneComponent;
+class USoundBase;
+class UNiagaraSystem;
+class UCameraShakeBase;
 
 /**
  * Base class for the non-lethal arsenal weapons (Bio-Foam Payload, Inhibitor Rifle, Vaccine Pistol).
@@ -53,8 +56,31 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Aim", meta = (EditCondition = "bHitscanWeapon", ClampMin = 100, ClampMax = 50000, Units = "cm"))
 	float HitscanRange = 10000.0f;
 
+	/** Played at the muzzle on every shot */
+	UPROPERTY(EditAnywhere, Category = "Feedback")
+	TObjectPtr<USoundBase> FireSound;
+
+	/** Spawned at the muzzle on every shot */
+	UPROPERTY(EditAnywhere, Category = "Feedback")
+	TObjectPtr<UNiagaraSystem> MuzzleFlashEffect;
+
+	/** Upward camera kick per shot, for player owners */
+	UPROPERTY(EditAnywhere, Category = "Feedback", meta = (ClampMin = 0, ClampMax = 10, Units = "Degrees"))
+	float RecoilPitch = 0.6f;
+
+	/** Max random sideways camera kick per shot, either direction */
+	UPROPERTY(EditAnywhere, Category = "Feedback", meta = (ClampMin = 0, ClampMax = 10, Units = "Degrees"))
+	float RecoilYawJitter = 0.2f;
+
+	/** Optional camera shake played on the owning player per shot */
+	UPROPERTY(EditAnywhere, Category = "Feedback")
+	TSubclassOf<UCameraShakeBase> FireCameraShake;
+
 	bool bIsFiring = false;
 	FTimerHandle RefireTimer;
+
+	/** World time of the last shot, so RefireRate also limits how fast repeated clicks can fire */
+	double LastFireTime = -1.0e9;
 
 	/** Cast pawn pointer to the owner, used for hitscan aim tracing and as the projectile Instigator */
 	UPROPERTY()
@@ -68,6 +94,9 @@ protected:
 	virtual FVector GetAimDirection_Implementation() const;
 
 	virtual void Fire();
+
+	/** Sound, muzzle flash, recoil and camera shake for one shot */
+	void PlayFireFeedback();
 
 	/** Traces from the owning Pawn's eyes along its look direction and applies the impact at wherever the trace lands */
 	virtual void FireHitscan();
