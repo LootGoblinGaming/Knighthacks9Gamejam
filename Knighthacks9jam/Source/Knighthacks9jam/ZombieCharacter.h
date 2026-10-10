@@ -5,6 +5,13 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "ZombieCharacter.generated.h"
+enum class EZombieState : uint8
+{
+	Patrol,
+	Chase,
+	Attack,
+	Dead
+};
 
 UCLASS()
 class KNIGHTHACKS9JAM_API AZombieCharacter : public ACharacter
@@ -20,7 +27,14 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
+	// state management
+	void setState(EZombieState newState);
+	void UpdateState();
+	void patrol();
+	void chase();
+	void attack();
+
+	// TakeDamage
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
