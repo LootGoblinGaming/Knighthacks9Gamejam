@@ -1,6 +1,6 @@
 #include "VaccinationComponent.h"
 #include "GameFramework/Character.h"
-#include "GameFramework/CharacterMovementComponent.h"
+#include "MovementModifierComponent.h"
 #include "AIController.h"
 
 UVaccinationComponent::UVaccinationComponent()
@@ -26,7 +26,10 @@ bool UVaccinationComponent::ApplyDose(AActor* VaccineInstigator)
 
 	if (ACharacter* Character = Cast<ACharacter>(GetOwner()))
 	{
-		Character->GetCharacterMovement()->MaxWalkSpeed = CuredWalkSpeed;
+		if (UMovementModifierComponent* Modifier = UMovementModifierComponent::FindOrAdd(Character))
+		{
+			Modifier->LockSpeed(CuredWalkSpeed);
+		}
 
 		// cancel the current chase; the speed lock above keeps any later MoveTo from going anywhere
 		if (AAIController* AIController = Cast<AAIController>(Character->GetController()))

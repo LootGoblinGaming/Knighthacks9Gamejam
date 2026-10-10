@@ -5,7 +5,11 @@
 			"guid": "00000000000000000000000000000000",
 			"description": "Default Uncontrolled Changelist",
 			"files": [
-				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/AI/BP_ZombieCharacter.uasset"
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/AI/BP_ZombieCharacter.uasset",
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/WeaponTest.umap",
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_RifleProjectile.uasset",
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_SmokeProjectile.uasset",
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_SonicRifle.uasset"
 			]
 		}
 	]

@@ -8,7 +8,7 @@ class USphereComponent;
 class UProjectileMovementComponent;
 
 /**
- * Base projectile for the non-lethal arsenal (Smoke Launcher, Sonic Rifle, Vaccine Pistol).
+ * Base projectile for the non-lethal arsenal (Bio-Foam Payload, Inhibitor Rifle, Vaccine Pistol).
  * Handles movement, collision, and the single-hit lifecycle. Subclasses override
  * OnProjectileImpact() for weapon-specific behavior.
  */

@@ -45,6 +45,10 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Zombie Settings")
     float Health = 100.0f;
 
+    // Owns MaxWalkSpeed so arsenal slows/freezes/vaccine cure survive state changes - set speeds through it
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+    class UMovementModifierComponent* MovementModifier;
+
     void SetState(EZombieState NewState);
     void UpdateAIState();
 

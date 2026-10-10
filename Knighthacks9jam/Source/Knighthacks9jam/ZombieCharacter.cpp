@@ -4,12 +4,14 @@
 #include "ZombieCharacter.h"
 #include "ZombieAIController.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "MovementModifierComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 AZombieCharacter::AZombieCharacter()
 {
     PrimaryActorTick.TickInterval = 0.1f;
     GetCharacterMovement()->MaxWalkSpeed = PatrolSpeed;
+    MovementModifier = CreateDefaultSubobject<UMovementModifierComponent>(TEXT("MovementModifier"));
     // Rotate the character toward its movement direction.
     bUseControllerRotationYaw = false;
     GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -67,13 +69,13 @@ void AZombieCharacter::SetState(EZombieState NewState)
     switch (CurrentState)
     {
         case EZombieState::Patrol:
-            GetCharacterMovement()->MaxWalkSpeed = PatrolSpeed;
+            MovementModifier->SetBaseSpeed(PatrolSpeed);
             break;
         case EZombieState::Chase:
-            GetCharacterMovement()->MaxWalkSpeed = ChaseSpeed;
+            MovementModifier->SetBaseSpeed(ChaseSpeed);
             break;
         case EZombieState::Attack:
-            GetCharacterMovement()->MaxWalkSpeed = 0.0f;
+            MovementModifier->SetBaseSpeed(0.0f);
             break;
         case EZombieState::Dead:
             GetCharacterMovement()->DisableMovement();
