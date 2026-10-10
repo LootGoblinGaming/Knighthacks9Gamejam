@@ -5,18 +5,9 @@
 			"guid": "00000000000000000000000000000000",
 			"description": "Default Uncontrolled Changelist",
 			"files": [
-<<<<<<< HEAD
-				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/WeaponTest.umap",
 				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/FirstPerson/Blueprints/BP_FirstPersonCharacter.uasset",
-				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_SonicRifle.uasset",
-				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_VaccinePistol.uasset",
-				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_SmokeLauncher.uasset"
-=======
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Menus/MainMenu.umap",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/UI/WBP_MainMenu.uasset",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/fOREST.umap",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Maps/fOREST.umap"
->>>>>>> main
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_VaccineTestDummy.uasset",
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/WeaponTest.umap"
 			]
 		}
 	]

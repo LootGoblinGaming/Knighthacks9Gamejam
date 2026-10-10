@@ -99,8 +99,9 @@ void AArsenalWeaponBase::FireHitscan()
 	QueryParams.AddIgnoredActor(OwningPawn);
 	QueryParams.AddIgnoredActor(this);
 
+	// Camera channel, not Visibility: the default Pawn collision preset ignores Visibility, so a Visibility trace passes through characters
 	FHitResult Hit;
-	const bool bHitSomething = GetWorld()->LineTraceSingleByChannel(Hit, EyeLocation, TraceEnd, ECC_Visibility, QueryParams);
+	const bool bHitSomething = GetWorld()->LineTraceSingleByChannel(Hit, EyeLocation, TraceEnd, ECC_Camera, QueryParams);
 
 	if (!bHitSomething)
 	{

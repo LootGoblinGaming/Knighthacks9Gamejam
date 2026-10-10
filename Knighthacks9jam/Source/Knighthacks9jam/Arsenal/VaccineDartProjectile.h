@@ -5,8 +5,8 @@
 #include "VaccineDartProjectile.generated.h"
 
 /**
- * Vaccine Pistol dart. On impact with a Pawn implementing IVaccineTarget, calls ApplyVaccine()
- * so the zombie's Behavior Tree can switch to its Neutral state. Ties into the CDC vaccine narrative.
+ * Vaccine Pistol dart. On impact, applies a dose to the hit actor's UVaccinationComponent (if any)
+ * and calls ApplyVaccine() on it if it implements IVaccineTarget. Ties into the CDC vaccine narrative.
  */
 UCLASS()
 class KNIGHTHACKS9JAM_API AVaccineDartProjectile : public AArsenalProjectileBase
