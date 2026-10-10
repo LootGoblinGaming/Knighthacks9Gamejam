@@ -1,3 +1,9 @@
-2026/10/10-14:05:42.069 4578 Reusing MANIFEST C:\Users\baysk\Documents\GitHub\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\Site Characteristics Database/MANIFEST-000001
-2026/10/10-14:05:42.070 4578 Recovering log #22
-2026/10/10-14:05:42.071 4578 Reusing old log C:\Users\baysk\Documents\GitHub\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\Site Characteristics Database/000022.log 
+2026/10/10-15:31:29.654 6540 Reusing MANIFEST C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\Site Characteristics Database/MANIFEST-000001
+2026/10/10-15:31:29.655 aadc Compacting 4@0 + 0@1 files
+2026/10/10-15:31:29.657 aadc Generated table #21@0: 2 keys, 191 bytes
+2026/10/10-15:31:29.657 aadc Compacted 4@0 + 0@1 files => 191 bytes
+2026/10/10-15:31:29.657 aadc compacted to: files[ 0 1 0 0 0 0 0 ]
+2026/10/10-15:31:29.658 aadc Delete type=2 #11
+2026/10/10-15:31:29.658 aadc Delete type=2 #12
+2026/10/10-15:31:29.658 aadc Delete type=2 #15
+2026/10/10-15:31:29.658 aadc Delete type=2 #18
