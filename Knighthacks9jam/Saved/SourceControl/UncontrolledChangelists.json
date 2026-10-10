@@ -5,6 +5,16 @@
 			"guid": "00000000000000000000000000000000",
 			"description": "Default Uncontrolled Changelist",
 			"files": [
+<<<<<<< HEAD
+				"C:/Users/Ovidi/Documents/Knighthacks9Gamejam/Knighthacks9jam/Content/AI/BP_ZombieCharacter.uasset",
+				"C:/Users/Ovidi/Documents/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/C/2E/IEVEQOB4NWEU0CEF7MXOCT.uasset",
+				"C:/Users/Ovidi/Documents/Knighthacks9Gamejam/Knighthacks9jam/Content/Wood_Monster/DemoContent/Mannequins/Animations/ABP_Manny.uasset",
+				"C:/Users/Ovidi/Documents/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/C/8I/ZS3PWTZVJN98MAR5SFBFOZ.uasset",
+				"C:/Users/Ovidi/Documents/Knighthacks9Gamejam/Knighthacks9jam/Content/Wood_Monster/CharacterParts/Character/UE5/BP_wood_monster_02.uasset",
+				"C:/Users/Ovidi/Documents/Knighthacks9Gamejam/Knighthacks9jam/Content/Wood_Monster/CharacterParts/Meshes/SK_wood_giant_01_a.uasset",
+				"C:/Users/Ovidi/Documents/Knighthacks9Gamejam/Knighthacks9jam/Content/Wood_Monster/DemoContent/Mannequins/Animations/ThirdPerson_retarget/ABP_Manny.uasset",
+				"C:/Users/Ovidi/Documents/Knighthacks9Gamejam/Knighthacks9jam/Content/Wood_Monster/DemoContent/Mannequins/Animations/ThirdPerson_retarget/BS_MM_WalkRun.uasset"
+=======
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Menus/MainMenu.umap",
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/UI/WBP_MainMenu.uasset",
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/fOREST.umap",
@@ -203,6 +213,7 @@
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Stylized_Tree_Pack/Materials/Material_Instances/Bark/MI_Bark_03.uasset",
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Stylized_Tree_Pack/Meshes/Willow/SM_Stylized_Tree_Willow_09.uasset",
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Stylized_Tree_Pack/Wind/MP_Wind.uasset"
+>>>>>>> main
 			]
 		}
 	]
