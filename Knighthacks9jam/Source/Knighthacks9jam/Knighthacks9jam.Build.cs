@@ -13,14 +13,16 @@ public class Knighthacks9jam : ModuleRules
 			"InputCore",
 			"EnhancedInput",
 			"AIModule",
-			"Niagara"
+			"Niagara",
+			"UMG"
 		});
 
-		PrivateDependencyModuleNames.AddRange(new string[] { });
+		PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 
 		PublicIncludePaths.AddRange(new string[] {
 			"Knighthacks9jam",
-			"Knighthacks9jam/Arsenal"
+			"Knighthacks9jam/Arsenal",
+			"Knighthacks9jam/Player"
 		});
 
 		// Uncomment if you are using Slate UI

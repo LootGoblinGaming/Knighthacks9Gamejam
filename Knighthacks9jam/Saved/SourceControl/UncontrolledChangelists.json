@@ -18,7 +18,13 @@
 				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/WeaponTest.umap",
 				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_RifleProjectile.uasset",
 				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_SmokeProjectile.uasset",
-				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_SonicRifle.uasset"
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_SonicRifle.uasset",
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_WeaponPickup_Vaccine.uasset",
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/FirstPerson/Blueprints/BP_FirstPersonCharacter.uasset",
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_WeaponPickup_Rifle.uasset",
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/M_CuredOverlay.uasset",
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_VaccinePistol.uasset",
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_PistolProjectile.uasset"
 			]
 		}
 	]
