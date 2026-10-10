@@ -1,11 +1,7 @@
-[28796:40376:1010/063432.438:WARNING:chrome_main_delegate.cc(745)] This is Chrome version 128.0.6613.138 (not a warning)
-[28796:35188:1010/063432.557:ERROR:google_update_settings.cc(265)] Failed opening key Software\Chromium to set usagestats; result: 5
-[28796:40376:1010/063432.570:WARNING:account_consistency_mode_manager.cc(77)] Desktop Identity Consistency cannot be enabled as no OAuth client ID and client secret have been configured.
-[28796:40376:1010/063436.447:WARNING:alloy_constrained_window_views_client.cc(77)] No likely focused browser
-[17192:45536:1010/063437.447:WARNING:frame_impl.cc(430)] virtual CefFrameImpl::SendProcessMessage sent to detached frame 5-CAC2F487556A752A9603D5CD39B86FD3 will be ignored
-[3452:47664:1010/063437.459:ERROR:entry_impl.cc(1029)] No file for 80000004
-[3452:47664:1010/063437.462:ERROR:entry_impl.cc(1029)] No file for 8000000a
-[3452:47664:1010/063437.463:ERROR:entry_impl.cc(1029)] No file for 80000008
-[3452:47664:1010/063437.530:ERROR:entry_impl.cc(1029)] No file for 80000006
-[3452:47664:1010/063438.035:ERROR:entry_impl.cc(1029)] No file for 80000010
-[28796:40376:1010/063440.609:ERROR:device_event_log_impl.cc(196)] [06:34:40.595] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+[27092:36224:1010/063510.813:WARNING:chrome_main_delegate.cc(745)] This is Chrome version 128.0.6613.138 (not a warning)
+[27092:37772:1010/063510.934:ERROR:google_update_settings.cc(265)] Failed opening key Software\Chromium to set usagestats; result: 5
+[27092:36224:1010/063510.934:WARNING:account_consistency_mode_manager.cc(77)] Desktop Identity Consistency cannot be enabled as no OAuth client ID and client secret have been configured.
+[45884:10828:1010/063515.032:WARNING:frame_impl.cc(430)] virtual CefFrameImpl::SendProcessMessage sent to detached frame 5-A3680A8C8782DB66AB2E60894AFAE82A will be ignored
+[27092:36224:1010/063517.132:ERROR:device_event_log_impl.cc(196)] [06:35:17.114] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+[46552:19016:1010/063708.623:WARNING:frame_impl.cc(430)] virtual CefFrameImpl::SendProcessMessage sent to detached frame 7-8DEE7A1B9BBF9438286A3E8B0A36DE09 will be ignored
+[27092:36224:1010/064346.260:WARNING:pref_notifier_impl.cc(41)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
