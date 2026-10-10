@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"user_experience_metrics.stability.exited_cleanly":true,"variations_crash_streak":1}
-=======
-{"user_experience_metrics.stability.exited_cleanly":false,"variations_crash_streak":0}
->>>>>>> main
+{"user_experience_metrics.stability.exited_cleanly":true,"variations_crash_streak":2}

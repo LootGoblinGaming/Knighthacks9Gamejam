@@ -5,39 +5,68 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "ZombieCharacter.generated.h"
+
+UENUM(BlueprintType)
 enum class EZombieState : uint8
 {
-	Patrol,
-	Chase,
-	Attack,
-	Dead
+    Patrol,
+    Chase,
+    Attack,
+    Dead
 };
 
 UCLASS()
-class KNIGHTHACKS9JAM_API AZombieCharacter : public ACharacter
+class KNIGHTHACKS9JAM_API   AZombieCharacter : public ACharacter
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
-	AZombieCharacter();
+    AZombieCharacter();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+    virtual void BeginPlay() override;
+    virtual void Tick(float DeltaTime) override;
 
-public:	
-	// state management
-	void setState(EZombieState newState);
-	void UpdateState();
-	void patrol();
-	void chase();
-	void attack();
+    // State management
+    UPROPERTY(BlueprintReadWrite, Category = "Zombie State")
+    EZombieState CurrentState;
 
-	// TakeDamage
-	virtual void Tick(float DeltaTime) override;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Zombie Settings")
+    float DetectionRange = 1000.0f;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Zombie Settings")
+    float AttackRange = 200.0f;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Zombie Settings")
+    float PatrolSpeed = 400.0f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Zombie Settings")
+    float ChaseSpeed = 2000.0f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Zombie Settings")
+    float Health = 100.0f;
+
+    void SetState(EZombieState NewState);
+    void UpdateAIState();
+
+    // Patrol
+    void Patrol();
+    void SelectRandomPatrolPoint();
+
+    // Chase
+    void ChasePlayer();
+
+    // Attack
+    void AttackPlayer();
+
+    // Health
+    void TakeDamage(float Damage);
+    void Die();
+
+private:
+    class AZombieAIController* ZombieController;
+    class ACharacter* PlayerCharacter;
+    FVector CurrentPatrolTarget;
+
+    UPROPERTY()
+	 UAnimInstance* ZombieAnimInstance = GetMesh()->GetAnimInstance();
 };
