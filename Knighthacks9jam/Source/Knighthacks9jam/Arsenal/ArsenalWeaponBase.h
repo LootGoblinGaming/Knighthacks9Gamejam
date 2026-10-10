@@ -9,7 +9,7 @@ class UStaticMeshComponent;
 class USceneComponent;
 
 /**
- * Base class for the non-lethal arsenal weapons (Smoke Launcher, Sonic Rifle, Vaccine Pistol).
+ * Base class for the non-lethal arsenal weapons (Bio-Foam Payload, Inhibitor Rifle, Vaccine Pistol).
  * Self-contained so it can be dropped into a blank test map and fired via Fire()
  * before the first-person character integration lands.
  */
