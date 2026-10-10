@@ -18,5 +18,4 @@ public:
 
     void MoveToLocation(FVector Location, float AcceptanceRadius);
     void MoveToActor(AActor* Target, float AcceptanceRadius);
-    void StopMovement();
 };
