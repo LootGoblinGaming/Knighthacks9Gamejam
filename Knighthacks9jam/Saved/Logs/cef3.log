@@ -1,26 +1,11 @@
-[42088:39748:1010/153129.380:WARNING:chrome_main_delegate.cc(745)] This is Chrome version 128.0.6613.138 (not a warning)
-[42088:39748:1010/153129.464:ERROR:os_crypt_win.cc(100)] Failed to decrypt: Key not valid for use in specified state. (0x8009000B)
-[42088:25920:1010/153129.535:ERROR:google_update_settings.cc(265)] Failed opening key Software\Chromium to set usagestats; result: 5
-[42088:39748:1010/153129.602:WARNING:account_consistency_mode_manager.cc(77)] Desktop Identity Consistency cannot be enabled as no OAuth client ID and client secret have been configured.
-[42088:27548:1010/153132.091:WARNING:leveldb_database.cc(141)] Unable to open C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata: IO error: C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[42088:27548:1010/153132.095:WARNING:leveldb_database.cc(141)] Unable to open C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata: IO error: C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[42088:27548:1010/153132.097:WARNING:leveldb_database.cc(141)] Unable to open C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata: IO error: C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[42088:27548:1010/153132.099:WARNING:leveldb_database.cc(141)] Unable to open C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata: IO error: C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[42088:27548:1010/153132.268:WARNING:value_store_frontend.cc(47)] Reading ahfgeienlihckogmohjhadlkjgocpleb.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[42088:27548:1010/153132.270:WARNING:value_store_frontend.cc(47)] Reading mhjfbmdgcfjbbpaeojofohoefgiehjai.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[27868:49568:1010/153132.430:WARNING:frame_impl.cc(430)] virtual CefFrameImpl::SendProcessMessage sent to detached frame 5-7E6015A5D77A521AE12342548DB4DC1B will be ignored
-[32440:46756:1010/153132.497:ERROR:entry_impl.cc(1029)] No file for 8000001d
-[32440:46756:1010/153132.501:ERROR:entry_impl.cc(1029)] No file for 8000001e
-[32440:46756:1010/153132.502:ERROR:entry_impl.cc(1029)] No file for 8000001f
-[32440:46756:1010/153132.525:ERROR:entry_impl.cc(1029)] No file for 80000020
-[32440:46756:1010/153132.525:ERROR:entry_impl.cc(1029)] No file for 80000021
-[32440:46756:1010/153132.613:ERROR:entry_impl.cc(1029)] No file for 80000023
-[32440:46756:1010/153133.331:ERROR:entry_impl.cc(1029)] No file for 80000024
-[32440:46756:1010/153133.331:ERROR:entry_impl.cc(1029)] No file for 80000025
-[32440:46756:1010/153133.336:ERROR:entry_impl.cc(1029)] No file for 80000026
-[42088:39748:1010/153145.665:ERROR:device_event_log_impl.cc(196)] [15:31:45.560] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
-[42088:39748:1010/153145.665:ERROR:device_event_log_impl.cc(196)] [15:31:45.583] USB: usb_service_win.cc:308 SetupDiEnumDeviceInterfaces: No more data is available. (0x103)
-[42088:39748:1010/153145.665:ERROR:device_event_log_impl.cc(196)] [15:31:45.601] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
-[42088:39748:1010/153145.665:ERROR:device_event_log_impl.cc(196)] [15:31:45.613] USB: usb_service_win.cc:308 SetupDiEnumDeviceInterfaces: No more data is available. (0x103)
-[42088:39748:1010/162326.318:ERROR:device_event_log_impl.cc(196)] [16:23:26.098] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
-[42088:39748:1010/174316.664:WARNING:pref_notifier_impl.cc(41)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
+[38336:33636:1010/180854.585:WARNING:chrome_main_delegate.cc(745)] This is Chrome version 128.0.6613.138 (not a warning)
+[38336:29940:1010/180854.620:ERROR:google_update_settings.cc(265)] Failed opening key Software\Chromium to set usagestats; result: 5
+[38336:33636:1010/180854.628:WARNING:account_consistency_mode_manager.cc(77)] Desktop Identity Consistency cannot be enabled as no OAuth client ID and client secret have been configured.
+[38336:50872:1010/180856.304:WARNING:leveldb_database.cc(141)] Unable to open C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata: IO error: C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[38336:50872:1010/180856.306:WARNING:leveldb_database.cc(141)] Unable to open C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata: IO error: C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[38336:50872:1010/180856.309:WARNING:leveldb_database.cc(141)] Unable to open C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata: IO error: C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[38336:50872:1010/180856.311:WARNING:leveldb_database.cc(141)] Unable to open C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata: IO error: C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[38336:34324:1010/180856.595:WARNING:value_store_frontend.cc(47)] Reading ahfgeienlihckogmohjhadlkjgocpleb.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[38336:34324:1010/180856.598:WARNING:value_store_frontend.cc(47)] Reading mhjfbmdgcfjbbpaeojofohoefgiehjai.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[28340:49796:1010/180859.315:WARNING:frame_impl.cc(430)] virtual CefFrameImpl::SendProcessMessage sent to detached frame 5-8F7F3EDA65415220E21CAF5B885421DB will be ignored
+[38336:33636:1010/190424.869:WARNING:pref_notifier_impl.cc(41)] Pref observer for media_router.cast_allow_all_ips found at shutdown.

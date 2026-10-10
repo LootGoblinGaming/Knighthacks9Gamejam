@@ -24,7 +24,7 @@ void AZombieCharacter::BeginPlay()
 
     ZombieController = Cast<AZombieAIController>(Controller);
     PlayerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-//	ZombieAnimInstance = GetMesh()->GetAnimInstance();
+	ZombieAnimInstance = GetMesh()->GetAnimInstance();
     
     SetState(EZombieState::Patrol);
     SelectRandomPatrolPoint();
