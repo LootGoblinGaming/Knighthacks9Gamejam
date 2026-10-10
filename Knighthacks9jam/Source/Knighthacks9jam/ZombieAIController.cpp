@@ -28,9 +28,3 @@ void AZombieAIController::MoveToActor(AActor* Target, float AcceptanceRadius)
         UAIBlueprintHelperLibrary::SimpleMoveToActor(this, Target);
     }
 }
-
-void AZombieAIController::StopMovement()
-{
-    StopMovement();
-}
-

@@ -59,6 +59,7 @@ public:
     void AttackPlayer();
 
     // Health
+    using Super::TakeDamage; // keep AActor::TakeDamage visible; Mac clang errors on hiding it
     void TakeDamage(float Damage);
     void Die();
 
