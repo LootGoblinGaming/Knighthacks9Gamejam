@@ -56,6 +56,18 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Aim", meta = (EditCondition = "bHitscanWeapon", ClampMin = 100, ClampMax = 50000, Units = "cm"))
 	float HitscanRange = 10000.0f;
 
+	/** Hitscan only: the round visibly flies from the muzzle to the hit point and lands the hit on arrival, instead of appearing there */
+	UPROPERTY(EditAnywhere, Category = "Aim", meta = (EditCondition = "bHitscanWeapon"))
+	bool bHitscanVisualFlight = true;
+
+	/** Speed of the visible round on its way to the hit point */
+	UPROPERTY(EditAnywhere, Category = "Aim", meta = (EditCondition = "bHitscanWeapon && bHitscanVisualFlight", ClampMin = 500, Units = "CentimetersPerSecond"))
+	float HitscanVisualSpeed = 9000.0f;
+
+	/** Long shots speed the round up so the hit never lands later than this after the trigger pull */
+	UPROPERTY(EditAnywhere, Category = "Aim", meta = (EditCondition = "bHitscanWeapon && bHitscanVisualFlight", ClampMin = 0.01, ClampMax = 1, Units = "s"))
+	float HitscanMaxFlightTime = 0.2f;
+
 	/** Played at the muzzle on every shot */
 	UPROPERTY(EditAnywhere, Category = "Feedback")
 	TObjectPtr<USoundBase> FireSound;

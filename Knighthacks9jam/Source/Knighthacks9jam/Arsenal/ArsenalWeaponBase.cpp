@@ -160,6 +160,18 @@ void AArsenalWeaponBase::FireHitscan()
 	SpawnParams.Owner = GetOwner();
 	SpawnParams.Instigator = OwningPawn;
 
+	if (bHitscanVisualFlight)
+	{
+		const FVector MuzzleLocation = MuzzlePoint->GetComponentLocation();
+		const FRotator FlightRotation = (Hit.ImpactPoint - MuzzleLocation).Rotation();
+
+		if (AArsenalProjectileBase* Round = GetWorld()->SpawnActor<AArsenalProjectileBase>(ProjectileClass, FTransform(FlightRotation, MuzzleLocation), SpawnParams))
+		{
+			Round->LaunchHitscanFlight(Hit, HitscanVisualSpeed, HitscanMaxFlightTime);
+		}
+		return;
+	}
+
 	AArsenalProjectileBase* ImpactActor = GetWorld()->SpawnActor<AArsenalProjectileBase>(ProjectileClass, FTransform(Hit.ImpactNormal.Rotation(), Hit.ImpactPoint), SpawnParams);
 	if (ImpactActor)
 	{
