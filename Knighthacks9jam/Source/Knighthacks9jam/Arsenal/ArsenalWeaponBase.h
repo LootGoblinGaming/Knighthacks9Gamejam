@@ -45,8 +45,22 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Refire", meta = (ClampMin = 0.05, ClampMax = 5, Units = "s"))
 	float RefireRate = 0.5f;
 
+	/** If true, this weapon fires an instant trace from the owning Pawn's eyes instead of spawning a physically-travelling projectile. */
+	UPROPERTY(EditAnywhere, Category = "Aim")
+	bool bHitscanWeapon = false;
+
+	/** Max trace distance for hitscan weapons */
+	UPROPERTY(EditAnywhere, Category = "Aim", meta = (EditCondition = "bHitscanWeapon", ClampMin = 100, ClampMax = 50000, Units = "cm"))
+	float HitscanRange = 10000.0f;
+
 	bool bIsFiring = false;
 	FTimerHandle RefireTimer;
+
+	/** Cast pawn pointer to the owner, used for hitscan aim tracing and as the projectile Instigator */
+	UPROPERTY()
+	TObjectPtr<APawn> OwningPawn;
+
+	virtual void BeginPlay() override;
 
 	/** Returns the direction projectiles should be fired in. Override once this is wired up to a player camera. */
 	UFUNCTION(BlueprintNativeEvent, Category = "Weapon")
@@ -54,6 +68,9 @@ protected:
 	virtual FVector GetAimDirection_Implementation() const;
 
 	virtual void Fire();
+
+	/** Traces from the owning Pawn's eyes along its look direction and applies the impact at wherever the trace lands */
+	virtual void FireHitscan();
 
 public:
 	UFUNCTION(BlueprintPure, Category = "Weapon")

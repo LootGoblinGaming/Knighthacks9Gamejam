@@ -38,6 +38,16 @@ void AArsenalProjectileBase::EndPlay(EEndPlayReason::Type EndPlayReason)
 
 void AArsenalProjectileBase::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit)
 {
+	ProcessImpact(Hit);
+}
+
+void AArsenalProjectileBase::SimulateInstantHit(const FHitResult& Hit)
+{
+	ProcessImpact(Hit);
+}
+
+void AArsenalProjectileBase::ProcessImpact(const FHitResult& Hit)
+{
 	if (bHit)
 	{
 		return;
