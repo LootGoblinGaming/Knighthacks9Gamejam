@@ -1,8 +1,8 @@
-[10376:40092:1010/144604.623:WARNING:chrome_main_delegate.cc(745)] This is Chrome version 128.0.6613.138 (not a warning)
-[10376:30196:1010/144605.271:ERROR:google_update_settings.cc(265)] Failed opening key Software\Chromium to set usagestats; result: 5
-[10376:40092:1010/144605.429:WARNING:account_consistency_mode_manager.cc(77)] Desktop Identity Consistency cannot be enabled as no OAuth client ID and client secret have been configured.
-[10376:40092:1010/144613.342:ERROR:device_event_log_impl.cc(196)] [14:46:13.332] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
-[37644:39848:1010/144613.637:WARNING:frame_impl.cc(430)] virtual CefFrameImpl::SendProcessMessage sent to detached frame 5-BC2F41498A25B01185D64E7FD08A8B85 will be ignored
-[10376:40092:1010/151008.618:ERROR:usb_descriptors.cc(166)] Device descriptor parsing error.
-[10376:40092:1010/151008.618:ERROR:device_event_log_impl.cc(196)] [15:10:08.618] USB: usb_device_win.cc:95 Failed to read descriptors from \\?\usb#vid_04e8&pid_6860#rfcya0nea6v#{a5dcbf10-6530-11d2-901f-00c04fb951ed}.
-[10376:40092:1010/162942.539:WARNING:pref_notifier_impl.cc(41)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
+[5552:41012:1010/163100.082:WARNING:chrome_main_delegate.cc(745)] This is Chrome version 128.0.6613.138 (not a warning)
+[5552:25956:1010/163100.219:ERROR:google_update_settings.cc(265)] Failed opening key Software\Chromium to set usagestats; result: 5
+[5552:41012:1010/163100.228:WARNING:account_consistency_mode_manager.cc(77)] Desktop Identity Consistency cannot be enabled as no OAuth client ID and client secret have been configured.
+[5552:41012:1010/163105.848:ERROR:device_event_log_impl.cc(196)] [16:31:05.526] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+[45992:7540:1010/163105.853:ERROR:backend_impl.cc(989)] Critical error found -8
+[45992:7540:1010/163106.070:WARNING:storage_block-inl.h(138)] Failed data load.
+[33460:22020:1010/163106.517:WARNING:frame_impl.cc(430)] virtual CefFrameImpl::SendProcessMessage sent to detached frame 5-14CF33B0E54A483CD2936F0F3D78CABD will be ignored
+[5552:41012:1010/172551.692:WARNING:pref_notifier_impl.cc(41)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
