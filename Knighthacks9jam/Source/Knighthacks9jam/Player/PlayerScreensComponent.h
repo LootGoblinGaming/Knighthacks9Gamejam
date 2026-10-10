@@ -10,6 +10,9 @@ class UTexture2D;
 class UInputComponent;
 class APlayerController;
 class UPlayerHealthComponent;
+class USoundBase;
+class UCameraShakeBase;
+class UCameraComponent;
 
 /**
  * Add to the player Character, next to UPlayerHealthComponent. Owns the player's full-screen states:
@@ -45,9 +48,45 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Screens")
 	FName MainMenuLevel = FName("MainMenu");
 
-	/** Beat between the killing hit and the game over screen */
+	/** Length of the death camera fall/fade between the killing hit and the game over screen */
 	UPROPERTY(EditAnywhere, Category = "Screens", meta = (ClampMin = 0, Units = "s"))
 	float GameOverDelay = 1.5f;
+
+	/** Played (2D) when the player takes their first hit */
+	UPROPERTY(EditAnywhere, Category = "Feedback|Hit")
+	TObjectPtr<USoundBase> HitSound;
+
+	/** On a hit the view snaps this far in a random direction, then eases back to where the player was aiming */
+	UPROPERTY(EditAnywhere, Category = "Feedback|Hit", meta = (ClampMin = 0, ClampMax = 45, Units = "Degrees"))
+	float HitViewKick = 8.0f;
+
+	/** How long the view takes to ease back after a hit snap */
+	UPROPERTY(EditAnywhere, Category = "Feedback|Hit", meta = (ClampMin = 0.05, ClampMax = 3, Units = "s"))
+	float HitKickRecoverTime = 0.4f;
+
+	/** Optional camera shake asset played on a hit, on top of the jolt */
+	UPROPERTY(EditAnywhere, Category = "Feedback|Hit")
+	TSubclassOf<UCameraShakeBase> HitCameraShake;
+
+	/** Played (2D) on the killing hit */
+	UPROPERTY(EditAnywhere, Category = "Feedback|Death")
+	TObjectPtr<USoundBase> DeathSound;
+
+	/** How far the view tips sideways as the player falls */
+	UPROPERTY(EditAnywhere, Category = "Feedback|Death", meta = (ClampMin = -90, ClampMax = 90, Units = "Degrees"))
+	float DeathTiltRoll = 35.0f;
+
+	/** How far the view drops toward the ground as the player falls */
+	UPROPERTY(EditAnywhere, Category = "Feedback|Death", meta = (ClampMin = 0, ClampMax = 80, Units = "Degrees"))
+	float DeathPitchDrop = 40.0f;
+
+	/** How far the camera sinks as the player falls */
+	UPROPERTY(EditAnywhere, Category = "Feedback|Death", meta = (ClampMin = 0, Units = "cm"))
+	float DeathCameraDrop = 120.0f;
+
+	/** Screen fades to this colour over GameOverDelay */
+	UPROPERTY(EditAnywhere, Category = "Feedback|Death")
+	FLinearColor DeathFadeColor = FLinearColor::Black;
 
 	/** Development only: hurts the player once, for testing without zombies. Ignored in shipping builds. */
 	UPROPERTY(EditAnywhere, Category = "Screens|Debug")
@@ -95,6 +134,21 @@ private:
 	bool bPaused = false;
 	bool bGameOver = false;
 
+	// hit snap: an offset layered on the control rotation and removed again, so the player's own aiming is untouched
+	bool bHitKickActive = false;
+	float HitKickElapsed = 0.0f;
+	FRotator HitKickStartOffset = FRotator::ZeroRotator;
+	FRotator HitKickAppliedOffset = FRotator::ZeroRotator;
+
+	// death fall, animated in TickComponent until the game over screen pauses the game
+	bool bPlayingDeathFall = false;
+	float DeathFallElapsed = 0.0f;
+	FRotator DeathStartRotation = FRotator::ZeroRotator;
+	FVector DeathCameraStartLocation = FVector::ZeroVector;
+
+	UPROPERTY()
+	TObjectPtr<UCameraComponent> DeathCamera;
+
 	FTimerHandle GameOverTimer;
 
 	UFUNCTION()
@@ -102,6 +156,15 @@ private:
 
 	UFUNCTION()
 	void OnPlayerDied(AActor* Attacker);
+
+	UFUNCTION()
+	void OnPlayerDamaged(AActor* Attacker);
+
+	void UpdateHitKick(float DeltaTime);
+	void SetHitKickOffset(const FRotator& NewOffset);
+
+	void StartDeathFall();
+	void UpdateDeathFall(float DeltaTime);
 
 	void SetupForController(APlayerController* NewPlayerController);
 	void ShowGameOver();

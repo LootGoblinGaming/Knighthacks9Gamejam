@@ -7,12 +7,14 @@
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
+#include "Camera/CameraComponent.h"
+#include "Camera/PlayerCameraManager.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
 
 UPlayerScreensComponent::UPlayerScreensComponent()
 {
-	// ticks only to fade the damage overlay
+	// ticks to fade the damage overlay and animate the death fall
 	PrimaryComponentTick.bCanEverTick = true;
 
 	DamageOverlayClass = UDamageOverlayWidget::StaticClass();
@@ -28,6 +30,7 @@ void UPlayerScreensComponent::BeginPlay()
 	Health = GetOwner()->FindComponentByClass<UPlayerHealthComponent>();
 	if (Health)
 	{
+		Health->OnDamaged.AddDynamic(this, &UPlayerScreensComponent::OnPlayerDamaged);
 		Health->OnDied.AddDynamic(this, &UPlayerScreensComponent::OnPlayerDied);
 	}
 	else
@@ -102,6 +105,118 @@ void UPlayerScreensComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	if (DamageOverlay && Health)
 	{
 		DamageOverlay->SetRenderOpacity(Health->GetDamageOverlayAlpha());
+	}
+
+	if (bHitKickActive)
+	{
+		UpdateHitKick(DeltaTime);
+	}
+
+	if (bPlayingDeathFall)
+	{
+		UpdateDeathFall(DeltaTime);
+	}
+}
+
+void UPlayerScreensComponent::OnPlayerDamaged(AActor* Attacker)
+{
+	UGameplayStatics::PlaySound2D(this, HitSound);
+
+	if (!PlayerController)
+	{
+		return;
+	}
+
+	const float KickAngle = FMath::FRandRange(0.0f, UE_TWO_PI);
+	HitKickStartOffset = FRotator(FMath::Sin(KickAngle) * HitViewKick, FMath::Cos(KickAngle) * HitViewKick, 0.0f);
+	HitKickElapsed = 0.0f;
+	bHitKickActive = true;
+	SetHitKickOffset(HitKickStartOffset);
+
+	if (HitCameraShake)
+	{
+		PlayerController->ClientStartCameraShake(HitCameraShake);
+	}
+}
+
+void UPlayerScreensComponent::UpdateHitKick(float DeltaTime)
+{
+	HitKickElapsed += DeltaTime;
+	const float Alpha = FMath::Clamp(HitKickElapsed / HitKickRecoverTime, 0.0f, 1.0f);
+
+	// quick at first, then settling gently onto the original aim
+	SetHitKickOffset(HitKickStartOffset * FMath::Square(1.0f - Alpha));
+
+	if (Alpha >= 1.0f)
+	{
+		bHitKickActive = false;
+	}
+}
+
+void UPlayerScreensComponent::SetHitKickOffset(const FRotator& NewOffset)
+{
+	if (!PlayerController)
+	{
+		return;
+	}
+
+	// swap the previous offset for the new one; any mouse movement since then stays in the control rotation
+	PlayerController->SetControlRotation(PlayerController->GetControlRotation() - HitKickAppliedOffset + NewOffset);
+	HitKickAppliedOffset = NewOffset;
+}
+
+void UPlayerScreensComponent::StartDeathFall()
+{
+	if (!PlayerController)
+	{
+		return;
+	}
+
+	// drop any unfinished hit snap so the fall starts from where the player was really looking
+	if (bHitKickActive)
+	{
+		SetHitKickOffset(FRotator::ZeroRotator);
+		bHitKickActive = false;
+	}
+
+	bPlayingDeathFall = true;
+	DeathFallElapsed = 0.0f;
+	DeathStartRotation = PlayerController->GetControlRotation();
+	DeathStartRotation.Pitch = FRotator::NormalizeAxis(DeathStartRotation.Pitch);
+
+	DeathCamera = GetOwner()->FindComponentByClass<UCameraComponent>();
+	if (DeathCamera)
+	{
+		DeathCameraStartLocation = DeathCamera->GetRelativeLocation();
+	}
+
+	if (PlayerController->PlayerCameraManager)
+	{
+		PlayerController->PlayerCameraManager->StartCameraFade(0.0f, 1.0f, FMath::Max(GameOverDelay, 0.01f), DeathFadeColor, false, true);
+	}
+}
+
+void UPlayerScreensComponent::UpdateDeathFall(float DeltaTime)
+{
+	DeathFallElapsed += DeltaTime;
+	const float Duration = FMath::Max(GameOverDelay, 0.01f);
+
+	// fast at first, settling at the end, like a body hitting the floor
+	const float Alpha = FMath::InterpEaseOut(0.0f, 1.0f, FMath::Clamp(DeathFallElapsed / Duration, 0.0f, 1.0f), 2.0f);
+
+	FRotator FallRotation = DeathStartRotation;
+	FallRotation.Pitch = FMath::Max(DeathStartRotation.Pitch - DeathPitchDrop * Alpha, -85.0f);
+	FallRotation.Roll = DeathTiltRoll * Alpha;
+	PlayerController->SetControlRotation(FallRotation);
+
+	if (DeathCamera)
+	{
+		DeathCamera->SetRelativeLocation(DeathCameraStartLocation - FVector(0.0f, 0.0f, DeathCameraDrop * Alpha));
+	}
+
+	if (Alpha >= 1.0f)
+	{
+		bPlayingDeathFall = false;
 	}
 }
 
@@ -189,6 +304,9 @@ void UPlayerScreensComponent::OnPlayerDied(AActor* Attacker)
 	{
 		Pawn->DisableInput(PlayerController);
 	}
+
+	UGameplayStatics::PlaySound2D(this, DeathSound);
+	StartDeathFall();
 
 	GetWorld()->GetTimerManager().SetTimer(GameOverTimer, this, &UPlayerScreensComponent::ShowGameOver, FMath::Max(GameOverDelay, 0.01f), false);
 }
