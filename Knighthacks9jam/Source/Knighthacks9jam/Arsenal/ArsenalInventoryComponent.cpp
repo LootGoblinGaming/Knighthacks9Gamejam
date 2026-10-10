@@ -13,37 +13,6 @@ void UArsenalInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	for (TSubclassOf<AArsenalWeaponBase> WeaponClass : WeaponClasses)
-	{
-		if (AArsenalWeaponBase* Weapon = SpawnWeapon(WeaponClass))
-		{
-			SpawnedWeapons.Add(Weapon);
-		}
-	}
-
-	if (SpawnedWeapons.Num() > 0)
-	{
-		EquipWeaponByIndex(0);
-	}
-}
-
-AArsenalWeaponBase* UArsenalInventoryComponent::SpawnWeapon(TSubclassOf<AArsenalWeaponBase> WeaponClass)
-{
-	if (!WeaponClass)
-	{
-		return nullptr;
-	}
-
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = GetOwner();
-	SpawnParams.Instigator = Cast<APawn>(GetOwner());
-
-	AArsenalWeaponBase* Weapon = GetWorld()->SpawnActor<AArsenalWeaponBase>(WeaponClass, SpawnParams);
-	if (!Weapon)
-	{
-		return nullptr;
-	}
-
 	USceneComponent* AttachTarget = nullptr;
 	if (ACharacter* OwningCharacter = Cast<ACharacter>(GetOwner()))
 	{
@@ -54,48 +23,36 @@ AArsenalWeaponBase* UArsenalInventoryComponent::SpawnWeapon(TSubclassOf<AArsenal
 		AttachTarget = OwnerActor->GetRootComponent();
 	}
 
-	if (AttachTarget)
+	for (TSubclassOf<AArsenalWeaponBase> WeaponClass : WeaponClasses)
 	{
-		Weapon->AttachToComponent(AttachTarget, FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponAttachSocket);
-	}
-
-	Weapon->SetActorHiddenInGame(true);
-	return Weapon;
-}
-
-bool UArsenalInventoryComponent::AddWeapon(TSubclassOf<AArsenalWeaponBase> WeaponClass, bool bEquip)
-{
-	if (!WeaponClass || HasWeapon(WeaponClass))
-	{
-		return false;
-	}
-
-	AArsenalWeaponBase* Weapon = SpawnWeapon(WeaponClass);
-	if (!Weapon)
-	{
-		return false;
-	}
-
-	const int32 NewIndex = SpawnedWeapons.Add(Weapon);
-
-	// an unarmed owner always equips its first weapon
-	if (bEquip || !SpawnedWeapons.IsValidIndex(CurrentWeaponIndex))
-	{
-		EquipWeaponByIndex(NewIndex);
-	}
-	return true;
-}
-
-bool UArsenalInventoryComponent::HasWeapon(TSubclassOf<AArsenalWeaponBase> WeaponClass) const
-{
-	for (const AArsenalWeaponBase* Weapon : SpawnedWeapons)
-	{
-		if (Weapon && Weapon->GetClass() == WeaponClass)
+		if (!WeaponClass)
 		{
-			return true;
+			continue;
 		}
+
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = GetOwner();
+		SpawnParams.Instigator = Cast<APawn>(GetOwner());
+
+		AArsenalWeaponBase* Weapon = GetWorld()->SpawnActor<AArsenalWeaponBase>(WeaponClass, SpawnParams);
+		if (!Weapon)
+		{
+			continue;
+		}
+
+		if (AttachTarget)
+		{
+			Weapon->AttachToComponent(AttachTarget, FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponAttachSocket);
+		}
+
+		Weapon->SetActorHiddenInGame(true);
+		SpawnedWeapons.Add(Weapon);
 	}
-	return false;
+
+	if (SpawnedWeapons.Num() > 0)
+	{
+		EquipWeaponByIndex(0);
+	}
 }
 
 void UArsenalInventoryComponent::EquipWeaponByIndex(int32 Index)
