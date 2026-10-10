@@ -10,7 +10,10 @@ AZombieCharacter::AZombieCharacter()
 {
     PrimaryActorTick.TickInterval = 0.1f;
     GetCharacterMovement()->MaxWalkSpeed = PatrolSpeed;
-   
+    // Rotate the character toward its movement direction.
+    bUseControllerRotationYaw = false;
+    GetCharacterMovement()->bOrientRotationToMovement = true;
+    GetCharacterMovement()->RotationRate = FRotator(0.0f, 360.0f, 0.0f);
 }
 
 void AZombieCharacter::BeginPlay()
