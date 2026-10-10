@@ -300,3 +300,20 @@ Available x64 toolchains (1):
 Visual Studio 2026 compiler version 14.50.35723 is not a preferred version. Please use the latest preferred version 14.44.35207
 Using 'git status' to determine working set for adaptive non-unity build (C:\Users\baysk\Documents\GitHub\Knighthacks9Gamejam).
 Creating makefile for Knighthacks9jamEditor (no existing makefile)
+UHT compiled-in object format Default
+@progress push 5%
+Parsing headers for Knighthacks9jamEditor
+  Running Internal UnrealHeaderTool C:\Users\baysk\Documents\GitHub\Knighthacks9Gamejam\Knighthacks9jam\Knighthacks9jam.uproject C:\Users\baysk\Documents\GitHub\Knighthacks9Gamejam\Knighthacks9jam\Intermediate\Build\Win64\Knighthacks9jamEditor\Development\Knighthacks9jamEditor.uhtmanifest -WarningsAsErrors -installed
+UHT processed Knighthacks9jamEditor in 1.7289093 seconds (20 files written)
+@progress pop
+Building Knighthacks9jamEditor...
+Using Visual Studio 2026 14.50.35723 toolchain (C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717) and Windows 10.0.26100.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+Warning: Visual Studio 2026 compiler is not a preferred version
+Determining max actions to execute in parallel (24 physical cores, 32 logical cores)
+  Executing up to 24 processes, one per physical core
+  Requested 1.5 GB memory per action, 13.63 GB available: limiting max parallel actions to 9
+Using Unreal Build Accelerator local executor to run 16 action(s)
+  Storage capacity 40Gb
+---- Starting trace: 261010_022912 ----
+UbaServer - Listening on 0.0.0.0:1345
+[1/16] Resource Default.rc2
