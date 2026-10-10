@@ -8,6 +8,9 @@
 #include "CollisionQueryParams.h"
 #include "TimerManager.h"
 #include "GameFramework/Pawn.h"
+#include "GameFramework/PlayerController.h"
+#include "Kismet/GameplayStatics.h"
+#include "ArsenalEffects.h"
 
 AArsenalWeaponBase::AArsenalWeaponBase()
 {
@@ -34,6 +37,21 @@ void AArsenalWeaponBase::BeginPlay()
 void AArsenalWeaponBase::StartFiring()
 {
 	bIsFiring = true;
+
+	FTimerManager& TimerManager = GetWorld()->GetTimerManager();
+	if (TimerManager.IsTimerActive(RefireTimer))
+	{
+		return;
+	}
+
+	// still cooling down from the last shot: fire as soon as it's ready, if the trigger is still held by then
+	const double CooldownRemaining = RefireRate - (GetWorld()->GetTimeSeconds() - LastFireTime);
+	if (CooldownRemaining > 0.0)
+	{
+		TimerManager.SetTimer(RefireTimer, this, &AArsenalWeaponBase::Fire, CooldownRemaining, false);
+		return;
+	}
+
 	Fire();
 }
 
@@ -55,6 +73,8 @@ void AArsenalWeaponBase::Fire()
 		return;
 	}
 
+	LastFireTime = GetWorld()->GetTimeSeconds();
+
 	if (bHitscanWeapon)
 	{
 		FireHitscan();
@@ -72,6 +92,8 @@ void AArsenalWeaponBase::Fire()
 		GetWorld()->SpawnActor<AArsenalProjectileBase>(ProjectileClass, FTransform(SpawnRotation, SpawnLocation), SpawnParams);
 	}
 
+	PlayFireFeedback();
+
 	if (bFullAuto)
 	{
 		GetWorld()->GetTimerManager().SetTimer(RefireTimer, this, &AArsenalWeaponBase::Fire, RefireRate, false);
@@ -79,6 +101,28 @@ void AArsenalWeaponBase::Fire()
 	else
 	{
 		StopFiring();
+	}
+}
+
+void AArsenalWeaponBase::PlayFireFeedback()
+{
+	UGameplayStatics::PlaySoundAtLocation(this, FireSound, MuzzlePoint->GetComponentLocation());
+	ArsenalEffects::SpawnEffectAttached(MuzzleFlashEffect, MuzzlePoint);
+
+	APlayerController* PlayerController = OwningPawn ? Cast<APlayerController>(OwningPawn->GetController()) : nullptr;
+	if (!PlayerController)
+	{
+		return;
+	}
+
+	FRotator ControlRotation = PlayerController->GetControlRotation();
+	ControlRotation.Pitch += RecoilPitch;
+	ControlRotation.Yaw += FMath::FRandRange(-RecoilYawJitter, RecoilYawJitter);
+	PlayerController->SetControlRotation(ControlRotation);
+
+	if (FireCameraShake)
+	{
+		PlayerController->ClientStartCameraShake(FireCameraShake);
 	}
 }
 
