@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2026/10/10-05:43:32.742 5de4 Reusing MANIFEST C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\Local Storage\leveldb/MANIFEST-000001
 2026/10/10-05:43:32.747 5de4 Recovering log #3
 2026/10/10-05:43:32.749 5de4 Reusing old log C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\Local Storage\leveldb/000003.log 
+=======
+2026/10/10-05:19:44.747 bc0 Reusing MANIFEST C:\Users\baysk\Documents\GitHub\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\Local Storage\leveldb/MANIFEST-000001
+2026/10/10-05:19:44.751 bc0 Recovering log #3
+2026/10/10-05:19:44.754 bc0 Reusing old log C:\Users\baysk\Documents\GitHub\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\Local Storage\leveldb/000003.log 
+>>>>>>> main
