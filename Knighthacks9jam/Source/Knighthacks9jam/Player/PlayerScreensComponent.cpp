@@ -20,6 +20,8 @@ UPlayerScreensComponent::UPlayerScreensComponent()
 	DamageOverlayClass = UDamageOverlayWidget::StaticClass();
 	PauseMenuClass = UPauseMenuWidget::StaticClass();
 	GameOverClass = UGameOverWidget::StaticClass();
+	VictoryClass = UVictoryWidget::StaticClass();
+	MessageClass = UMessageToastWidget::StaticClass();
 	PauseKeys = { EKeys::Escape, EKeys::P };
 }
 
@@ -51,6 +53,7 @@ void UPlayerScreensComponent::EndPlay(EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 
 	GetWorld()->GetTimerManager().ClearTimer(GameOverTimer);
+	GetWorld()->GetTimerManager().ClearTimer(VictoryTimer);
 
 	if (PlayerController && ScreensInput)
 	{
@@ -80,6 +83,12 @@ void UPlayerScreensComponent::SetupForController(APlayerController* NewPlayerCon
 		}
 		DamageOverlay->SetRenderOpacity(0.0f);
 		DamageOverlay->AddToViewport(0);
+	}
+
+	GameplayHUD = CreateScreen(HUDClass);
+	if (GameplayHUD)
+	{
+		GameplayHUD->AddToViewport(1);
 	}
 
 	// own input component, so the pause key works without touching the character's input setup
@@ -115,6 +124,18 @@ void UPlayerScreensComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	if (bPlayingDeathFall)
 	{
 		UpdateDeathFall(DeltaTime);
+	}
+
+	if (MessageBanner && MessageTimeRemaining > 0.0f)
+	{
+		MessageTimeRemaining -= DeltaTime;
+
+		// fade over the last half second
+		MessageBanner->SetRenderOpacity(FMath::Clamp(MessageTimeRemaining / 0.5f, 0.0f, 1.0f));
+		if (MessageTimeRemaining <= 0.0f)
+		{
+			MessageBanner->RemoveFromParent();
+		}
 	}
 }
 
@@ -293,6 +314,16 @@ void UPlayerScreensComponent::OnPlayerDied(AActor* Attacker)
 	}
 	bGameOver = true;
 
+	StopPlayerForMatchEnd();
+
+	UGameplayStatics::PlaySound2D(this, DeathSound);
+	StartDeathFall();
+
+	GetWorld()->GetTimerManager().SetTimer(GameOverTimer, this, &UPlayerScreensComponent::ShowGameOver, FMath::Max(GameOverDelay, 0.01f), false);
+}
+
+void UPlayerScreensComponent::StopPlayerForMatchEnd()
+{
 	ResumeGame();
 
 	if (UArsenalInventoryComponent* Inventory = GetOwner()->FindComponentByClass<UArsenalInventoryComponent>())
@@ -305,10 +336,74 @@ void UPlayerScreensComponent::OnPlayerDied(AActor* Attacker)
 		Pawn->DisableInput(PlayerController);
 	}
 
-	UGameplayStatics::PlaySound2D(this, DeathSound);
-	StartDeathFall();
+	if (MessageBanner)
+	{
+		MessageBanner->RemoveFromParent();
+		MessageTimeRemaining = 0.0f;
+	}
+}
 
-	GetWorld()->GetTimerManager().SetTimer(GameOverTimer, this, &UPlayerScreensComponent::ShowGameOver, FMath::Max(GameOverDelay, 0.01f), false);
+void UPlayerScreensComponent::ShowVictory(float Delay)
+{
+	if (bGameOver)
+	{
+		return;
+	}
+	// bGameOver also makes OnPlayerDied ignore any zombie hit that lands during the extraction shot
+	bGameOver = true;
+
+	StopPlayerForMatchEnd();
+
+	if (Delay > 0.0f)
+	{
+		GetWorld()->GetTimerManager().SetTimer(VictoryTimer, this, &UPlayerScreensComponent::DisplayVictoryScreen, Delay, false);
+	}
+	else
+	{
+		DisplayVictoryScreen();
+	}
+}
+
+void UPlayerScreensComponent::DisplayVictoryScreen()
+{
+	VictoryScreen = CreateScreen(VictoryClass);
+	if (!VictoryScreen)
+	{
+		return;
+	}
+
+	VictoryScreen->AddToViewport(10);
+	UGameplayStatics::SetGamePaused(this, true);
+	SetMenuInput(VictoryScreen, false);
+}
+
+void UPlayerScreensComponent::ShowMessage(const FText& Message, float Duration)
+{
+	if (bGameOver)
+	{
+		return;
+	}
+
+	if (!MessageBanner)
+	{
+		MessageBanner = CreateScreen(MessageClass);
+	}
+	if (!MessageBanner)
+	{
+		return;
+	}
+
+	if (UMessageToastWidget* Toast = Cast<UMessageToastWidget>(MessageBanner))
+	{
+		Toast->SetMessage(Message);
+	}
+
+	if (!MessageBanner->IsInViewport())
+	{
+		MessageBanner->AddToViewport(4);
+	}
+	MessageBanner->SetRenderOpacity(1.0f);
+	MessageTimeRemaining = FMath::Max(Duration, 0.1f);
 }
 
 void UPlayerScreensComponent::ShowGameOver()

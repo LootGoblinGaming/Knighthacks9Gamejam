@@ -13,6 +13,7 @@ public class Knighthacks9jam : ModuleRules
 			"InputCore",
 			"EnhancedInput",
 			"AIModule",
+			"NavigationSystem",
 			"Niagara",
 			"UMG"
 		});
@@ -22,7 +23,8 @@ public class Knighthacks9jam : ModuleRules
 		PublicIncludePaths.AddRange(new string[] {
 			"Knighthacks9jam",
 			"Knighthacks9jam/Arsenal",
-			"Knighthacks9jam/Player"
+			"Knighthacks9jam/Player",
+			"Knighthacks9jam/Level"
 		});
 
 		// Uncomment if you are using Slate UI

@@ -9,6 +9,7 @@ class UImage;
 class UTexture2D;
 class UVerticalBox;
 class UButton;
+class UTextBlock;
 
 /**
  * Placeholder screens built in code, so pause/game over/damage feedback work with no widget assets.
@@ -79,4 +80,30 @@ class KNIGHTHACKS9JAM_API UGameOverWidget : public UPlayerMenuWidget
 
 protected:
 	virtual void BuildMenu(UVerticalBox* Column) override;
+};
+
+UCLASS()
+class KNIGHTHACKS9JAM_API UVictoryWidget : public UPlayerMenuWidget
+{
+	GENERATED_BODY()
+
+protected:
+	virtual void BuildMenu(UVerticalBox* Column) override;
+};
+
+/** Click-through text banner near the bottom of the screen, for short hints like "Collect all supplies first" */
+UCLASS()
+class KNIGHTHACKS9JAM_API UMessageToastWidget : public UUserWidget
+{
+	GENERATED_BODY()
+
+public:
+	void SetMessage(const FText& Message);
+
+protected:
+	virtual bool Initialize() override;
+
+private:
+	UPROPERTY()
+	TObjectPtr<UTextBlock> MessageText;
 };

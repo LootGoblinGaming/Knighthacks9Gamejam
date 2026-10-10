@@ -138,4 +138,55 @@ void UGameOverWidget::BuildMenu(UVerticalBox* Column)
 	AddButton(Column, LOCTEXT("GameOverMainMenu", "Main Menu"))->OnClicked.AddDynamic(this, &UGameOverWidget::OnMainMenuClicked);
 }
 
+void UVictoryWidget::BuildMenu(UVerticalBox* Column)
+{
+	AddTitle(Column, LOCTEXT("VictoryTitle", "YOU ESCAPED"), FLinearColor(0.2f, 0.95f, 0.5f));
+	AddButton(Column, LOCTEXT("PlayAgain", "Play Again"))->OnClicked.AddDynamic(this, &UVictoryWidget::OnRestartClicked);
+	AddButton(Column, LOCTEXT("VictoryMainMenu", "Main Menu"))->OnClicked.AddDynamic(this, &UVictoryWidget::OnMainMenuClicked);
+}
+
+bool UMessageToastWidget::Initialize()
+{
+	if (!Super::Initialize())
+	{
+		return false;
+	}
+
+	if (WidgetTree && !WidgetTree->RootWidget)
+	{
+		// transparent full-screen frame that pins the banner to the lower middle of the screen
+		UBorder* Frame = WidgetTree->ConstructWidget<UBorder>(UBorder::StaticClass(), TEXT("Frame"));
+		Frame->SetBrushColor(FLinearColor::Transparent);
+		Frame->SetHorizontalAlignment(HAlign_Center);
+		Frame->SetVerticalAlignment(VAlign_Bottom);
+		Frame->SetPadding(FMargin(0.0f, 0.0f, 0.0f, 180.0f));
+
+		UBorder* Banner = WidgetTree->ConstructWidget<UBorder>(UBorder::StaticClass(), TEXT("Banner"));
+		Banner->SetBrushColor(FLinearColor(0.0f, 0.0f, 0.0f, 0.65f));
+		Banner->SetPadding(FMargin(24.0f, 12.0f));
+		Frame->SetContent(Banner);
+
+		MessageText = WidgetTree->ConstructWidget<UTextBlock>(UTextBlock::StaticClass(), TEXT("MessageText"));
+		MessageText->SetColorAndOpacity(FSlateColor(FLinearColor::White));
+		MessageText->SetJustification(ETextJustify::Center);
+		FSlateFontInfo Font = MessageText->GetFont();
+		Font.Size = 26;
+		MessageText->SetFont(Font);
+		Banner->SetContent(MessageText);
+
+		WidgetTree->RootWidget = Frame;
+	}
+
+	SetVisibility(ESlateVisibility::HitTestInvisible);
+	return true;
+}
+
+void UMessageToastWidget::SetMessage(const FText& Message)
+{
+	if (MessageText)
+	{
+		MessageText->SetText(Message);
+	}
+}
+
 #undef LOCTEXT_NAMESPACE
