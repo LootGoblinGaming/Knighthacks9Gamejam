@@ -5,12 +5,41 @@
 			"guid": "00000000000000000000000000000000",
 			"description": "Default Uncontrolled Changelist",
 			"files": [
+<<<<<<< HEAD
 				"C:/Users/Ovidi/Documents/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/4/EP/V5YP1QJUPRZ1OX0H28KEP5.uasset",
 				"C:/Users/Ovidi/Documents/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/4/TS/3SSTL3PHGH39S2BVNFGW3W.uasset",
 				"C:/Users/Ovidi/Documents/Knighthacks9Gamejam/Knighthacks9jam/Content/AI/BP_AI_Controller.uasset",
 				"C:/Users/Ovidi/Documents/Knighthacks9Gamejam/Knighthacks9jam/Content/AI/BP_AI_Zombie.uasset",
 				"C:/Users/Ovidi/Documents/Knighthacks9Gamejam/Knighthacks9jam/Content/FirstPerson/Lvl_FirstPerson.umap",
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Variant_Shooter/Blueprints/Pickups/Weapons/BP_ShooterWeapon_GrenadeLauncher.uasset"
+=======
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Variant_Shooter/Blueprints/Pickups/Weapons/BP_ShooterWeapon_GrenadeLauncher.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/A_Surface_Footstep/Environment_Assets/SM_Scapes1.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/A_Surface_Footstep/Surface_FootstepFX_DemoMap_BuiltData.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/A_Surface_Footstep/Surface_FootstepFX_DemoMap.umap",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Fantastic_Village_Pack/maps/map_village_day.umap",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Fantastic_Village_Pack/maps/map_village_day_BuiltData.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Fantastic_Village_Pack/maps/map_village_night.umap",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Fantastic_Village_Pack/maps/map_village_night_BuiltData.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Fantastic_Village_Pack/maps/map_village_overview.umap",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Fantastic_Village_Pack/maps/map_village_overview_BuiltData.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Fantastic_Village_Pack/animations/Cam_LevelSequence.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Mega_Survival_Tools/Maps/Demonstration_BuiltData.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Mega_Survival_Tools/Maps/Demonstration.umap",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Mega_Survival_Tools/Maps/Demo_02_BuiltData.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Mega_Survival_Tools/Maps/Demo_01_BuiltData.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Mega_Survival_Tools/Maps/Demo_02.umap",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Mega_Survival_Tools/Maps/Demo_01.umap",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/MysteryCave/Scenes/NewMap.umap",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/MysteryCave/Scenes/NewLevelSequence.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/MysteryCave/Scenes/Assets.umap",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Stylized_Tree_Pack/Maps/Overview.umap",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/A_Surface_Footstep/Niagara_FX/Textures/ParticleFlamesSheet.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/A_Surface_Footstep/Niagara_FX/Textures/T_FireSheet.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/A_Surface_Footstep/Niagara_FX/Textures/T_FireSheet2.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/A_Surface_Footstep/Niagara_FX/Textures/T_FireSheet3.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/A_Surface_Footstep/Niagara_FX/Textures/T_FireSheet4.uasset"
+>>>>>>> main
 			]
 		}
 	]
