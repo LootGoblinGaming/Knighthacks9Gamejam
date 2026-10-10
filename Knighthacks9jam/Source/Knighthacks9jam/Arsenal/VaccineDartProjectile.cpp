@@ -1,5 +1,6 @@
 #include "VaccineDartProjectile.h"
 #include "VaccineTarget.h"
+#include "VaccinationComponent.h"
 
 AVaccineDartProjectile::AVaccineDartProjectile()
 {
@@ -14,7 +15,17 @@ void AVaccineDartProjectile::OnProjectileImpact(const FHitResult& Hit)
 	Super::OnProjectileImpact(Hit);
 
 	AActor* HitActor = Hit.GetActor();
-	if (HitActor && HitActor->Implements<UVaccineTarget>())
+	if (!HitActor)
+	{
+		return;
+	}
+
+	if (UVaccinationComponent* Vaccination = HitActor->FindComponentByClass<UVaccinationComponent>())
+	{
+		Vaccination->ApplyDose(GetInstigator());
+	}
+
+	if (HitActor->Implements<UVaccineTarget>())
 	{
 		IVaccineTarget::Execute_ApplyVaccine(HitActor, GetInstigator());
 	}

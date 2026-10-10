@@ -59,6 +59,16 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Projectile", meta = (DisplayName = "On Projectile Impact"))
 	void BP_OnProjectileImpact(const FHitResult& Hit);
 
+public:
+	/**
+	 * Applies this projectile's impact behavior immediately, without requiring an actual physics collision.
+	 * Used by hitscan weapons: they spawn this projectile at the traced hit location and call this directly
+	 * so the noise / interface / Blueprint impact hooks all fire identically to a physically-travelled hit.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Projectile")
+	void SimulateInstantHit(const FHitResult& Hit);
+
 private:
+	void ProcessImpact(const FHitResult& Hit);
 	void OnDeferredDestruction();
 };
