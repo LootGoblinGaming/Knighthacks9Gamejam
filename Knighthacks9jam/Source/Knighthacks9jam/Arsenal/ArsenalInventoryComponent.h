@@ -8,8 +8,8 @@ class AArsenalWeaponBase;
 
 /**
  * Add this to the player Character to equip and fire the arsenal weapons. Spawns every entry
- * in WeaponClasses on BeginPlay, attached to the owner's mesh, and keeps exactly one visible
- * and able to fire at a time.
+ * in WeaponClasses on BeginPlay, attached to the owner's mesh, accepts more at runtime through
+ * AddWeapon() (e.g. from AArsenalWeaponPickup), and keeps exactly one visible and able to fire at a time.
  */
 UCLASS(ClassGroup = (Arsenal), meta = (BlueprintSpawnableComponent))
 class KNIGHTHACKS9JAM_API UArsenalInventoryComponent : public UActorComponent
@@ -19,7 +19,7 @@ class KNIGHTHACKS9JAM_API UArsenalInventoryComponent : public UActorComponent
 public:
 	UArsenalInventoryComponent();
 
-	/** Weapon classes to spawn and equip, in slot order. Index 0 is equipped by default. */
+	/** Weapons the owner starts with, in slot order. Index 0 is equipped by default. Leave empty to start unarmed. */
 	UPROPERTY(EditAnywhere, Category = "Arsenal")
 	TArray<TSubclassOf<AArsenalWeaponBase>> WeaponClasses;
 
@@ -29,6 +29,13 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Arsenal")
 	void EquipWeaponByIndex(int32 Index);
+
+	/** Spawns a weapon of this class into the next slot, optionally equipping it. Returns false if it's already owned. */
+	UFUNCTION(BlueprintCallable, Category = "Arsenal")
+	bool AddWeapon(TSubclassOf<AArsenalWeaponBase> WeaponClass, bool bEquip = true);
+
+	UFUNCTION(BlueprintPure, Category = "Arsenal")
+	bool HasWeapon(TSubclassOf<AArsenalWeaponBase> WeaponClass) const;
 
 	/** Equips the next weapon in WeaponClasses, wrapping around to the first after the last */
 	UFUNCTION(BlueprintCallable, Category = "Arsenal")
@@ -54,4 +61,8 @@ protected:
 	TArray<TObjectPtr<AArsenalWeaponBase>> SpawnedWeapons;
 
 	int32 CurrentWeaponIndex = -1;
+
+private:
+	/** Spawns the weapon hidden and attached to the owner. Returns nullptr on failure. */
+	AArsenalWeaponBase* SpawnWeapon(TSubclassOf<AArsenalWeaponBase> WeaponClass);
 };
