@@ -5,6 +5,24 @@
 			"guid": "00000000000000000000000000000000",
 			"description": "Default Uncontrolled Changelist",
 			"files": [
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/FirstPerson/Blueprints/BP_FirstPersonCharacter.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/GamePlayELEments/pickups/Bp_Pickup_Water.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/0/FM/N6RAR0OYI7VJV5QDYB4CS8.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/GamePlayELEments/pickups/Bp_Pickup_Radio.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/GamePlayELEments/pickups/Bp_PickupBAse.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/2/D0/6KFAGB6BKEOZWTMKH2T0J1.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/GamePlayELEments/pickups/Bp_Pickup_Documents.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/GamePlayELEments/pickups/Bp_Pickup_Food.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/B/6E/3UAF5GLK5Y5HQCOHY4FWV7.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/1/R9/WSYRG0X0M0KMFAY2AJQXXK.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/2/VR/W4C6AU77EG04QDY5QHVRF9.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/1/XA/VDHKUA6EV8CFY6WS1BUZTW.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/0/81/YXXQLS9YZA7R9HBSRLHLPF.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/B/ZZ/W6QCUK9RYEGCR76CL9AU07.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/FirstPerson/Lvl_FirstPerson.umap",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/GamePlayELEments/pickups/Bp_Pickup_Flashlighth.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/GamePlayELEments/pickups/Bp_Pickup_MedKit.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/UI/WBP_HUD.uasset",
 				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/AI/BP_ZombieCharacter.uasset",
 				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/WeaponTest.umap",
 				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_RifleProjectile.uasset",
@@ -15,17 +33,7 @@
 				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_WeaponPickup_Rifle.uasset",
 				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/M_CuredOverlay.uasset",
 				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_VaccinePistol.uasset",
-				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_PistolProjectile.uasset",
-				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/2/VR/W4C6AU77EG04QDY5QHVRF9.uasset",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/FirstPerson/Blueprints/BP_FirstPersonCharacter.uasset",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/GamePlayELEments/pickups/Bp_Pickup_Water.uasset",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/0/FM/N6RAR0OYI7VJV5QDYB4CS8.uasset",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/GamePlayELEments/pickups/Bp_Pickup_Radio.uasset",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/GamePlayELEments/pickups/Bp_PickupBAse.uasset",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/2/D0/6KFAGB6BKEOZWTMKH2T0J1.uasset",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/GamePlayELEments/pickups/Bp_Pickup_Documents.uasset",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/GamePlayELEments/pickups/Bp_Pickup_Food.uasset",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/B/6E/3UAF5GLK5Y5HQCOHY4FWV7.uasset"
+				"/Users/bakawi/Documents/Clone Repository/Knighthacks9Gamejam/Knighthacks9jam/Content/Tests/BP_PistolProjectile.uasset"
 			]
 		}
 	]

@@ -1,6 +1,8 @@
-[16652:15708:1010/140541.728:WARNING:chrome_main_delegate.cc(745)] This is Chrome version 128.0.6613.138 (not a warning)
-[16652:47132:1010/140541.942:ERROR:google_update_settings.cc(265)] Failed opening key Software\Chromium to set usagestats; result: 5
-[16652:15708:1010/140542.012:WARNING:account_consistency_mode_manager.cc(77)] Desktop Identity Consistency cannot be enabled as no OAuth client ID and client secret have been configured.
-[16652:15708:1010/140549.877:ERROR:device_event_log_impl.cc(196)] [14:05:49.779] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
-[26576:30796:1010/140551.462:WARNING:frame_impl.cc(430)] virtual CefFrameImpl::SendProcessMessage sent to detached frame 5-9AFEE803D071A9C31573EC224B3FD74F will be ignored
-[16652:15708:1010/140730.022:WARNING:pref_notifier_impl.cc(41)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
+[10376:40092:1010/144604.623:WARNING:chrome_main_delegate.cc(745)] This is Chrome version 128.0.6613.138 (not a warning)
+[10376:30196:1010/144605.271:ERROR:google_update_settings.cc(265)] Failed opening key Software\Chromium to set usagestats; result: 5
+[10376:40092:1010/144605.429:WARNING:account_consistency_mode_manager.cc(77)] Desktop Identity Consistency cannot be enabled as no OAuth client ID and client secret have been configured.
+[10376:40092:1010/144613.342:ERROR:device_event_log_impl.cc(196)] [14:46:13.332] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+[37644:39848:1010/144613.637:WARNING:frame_impl.cc(430)] virtual CefFrameImpl::SendProcessMessage sent to detached frame 5-BC2F41498A25B01185D64E7FD08A8B85 will be ignored
+[10376:40092:1010/151008.618:ERROR:usb_descriptors.cc(166)] Device descriptor parsing error.
+[10376:40092:1010/151008.618:ERROR:device_event_log_impl.cc(196)] [15:10:08.618] USB: usb_device_win.cc:95 Failed to read descriptors from \\?\usb#vid_04e8&pid_6860#rfcya0nea6v#{a5dcbf10-6530-11d2-901f-00c04fb951ed}.
+[10376:40092:1010/162942.539:WARNING:pref_notifier_impl.cc(41)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
