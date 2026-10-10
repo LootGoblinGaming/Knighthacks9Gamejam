@@ -7,9 +7,6 @@
 			"files": [
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/A_Surface_Footstep/Environment_Assets/SM_Scapes1.uasset",
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Maps/fOREST.umap",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Military_Free/Maps/Demonstration_BuiltData.uasset",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Military_Free/Maps/Demonstration.umap",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Menus/MainMenu.umap",
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Maps/MainMenu.umap",
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Military_Free/Actors/AC_Hummer_003.uasset",
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Wood_Monster/CharacterParts/Character/UE5/BP_wood_monster_02.uasset",
@@ -18,7 +15,14 @@
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Military_Free/Actors/AC_Generator_004.uasset",
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Military_Free/Actors/AC_Helicopter_001.uasset",
 				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Military_Free/Actors/AC_Protection_001.uasset",
-				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Military_Free/Actors/AC_Tank_006.uasset"
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Military_Free/Actors/AC_Tank_006.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Wood_Monster/DemoContent/Mannequins/Animations/ThirdPerson_retarget/ABP_Manny.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/C/8I/ZS3PWTZVJN98MAR5SFBFOZ.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/AI/NewBlueprint.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/2/VR/W4C6AU77EG04QDY5QHVRF9.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Military_Free/Maps/Demonstration_BuiltData.uasset",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Military_Free/Maps/Demonstration.umap",
+				"C:/Users/baysk/Documents/GitHub/Knighthacks9Gamejam/Knighthacks9jam/Content/Menus/MainMenu.umap"
 			]
 		}
 	]
