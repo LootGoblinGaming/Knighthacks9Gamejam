@@ -1,6 +1,42 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+[11724:7132:1010/221629.530:WARNING:chrome_main_delegate.cc(745)] This is Chrome version 128.0.6613.138 (not a warning)
+[11724:13796:1010/221629.567:ERROR:google_update_settings.cc(265)] Failed opening key Software\Chromium to set usagestats; result: 5
+[11724:7132:1010/221629.575:WARNING:account_consistency_mode_manager.cc(77)] Desktop Identity Consistency cannot be enabled as no OAuth client ID and client secret have been configured.
+[11724:51072:1010/221632.228:WARNING:leveldb_database.cc(141)] Unable to open C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata: IO error: C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[11724:51072:1010/221632.230:WARNING:leveldb_database.cc(141)] Unable to open C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata: IO error: C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[11724:51072:1010/221632.231:WARNING:leveldb_database.cc(141)] Unable to open C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata: IO error: C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[11724:51072:1010/221632.233:WARNING:leveldb_database.cc(141)] Unable to open C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata: IO error: C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\shared_proto_db\metadata/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[11724:51072:1010/221632.642:WARNING:value_store_frontend.cc(47)] Reading ahfgeienlihckogmohjhadlkjgocpleb.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[11724:51072:1010/221632.643:WARNING:value_store_frontend.cc(47)] Reading mhjfbmdgcfjbbpaeojofohoefgiehjai.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[3904:35084:1010/221634.346:WARNING:frame_impl.cc(430)] virtual CefFrameImpl::SendProcessMessage sent to detached frame 5-CA4DD5021E962C9C2DB884DD0ED01D90 will be ignored
+[11724:7132:1010/232637.392:ERROR:device_event_log_impl.cc(196)] [23:26:37.138] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+[11724:7132:1010/233935.103:ERROR:device_event_log_impl.cc(196)] [23:39:35.079] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+[11724:7132:1010/233935.146:ERROR:device_event_log_impl.cc(196)] [23:39:35.130] USB: usb_service_win.cc:308 SetupDiEnumDeviceInterfaces: No more data is available. (0x103)
+[11724:7132:1010/233935.146:ERROR:device_event_log_impl.cc(196)] [23:39:35.138] USB: usb_service_win.cc:308 SetupDiEnumDeviceInterfaces: No more data is available. (0x103)
+[11724:7132:1010/233935.195:ERROR:device_event_log_impl.cc(196)] [23:39:35.179] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+[11724:7132:1010/233935.212:ERROR:device_event_log_impl.cc(196)] [23:39:35.204] USB: usb_service_win.cc:308 SetupDiEnumDeviceInterfaces: No more data is available. (0x103)
+[11724:7132:1011/035011.110:ERROR:device_event_log_impl.cc(196)] [03:50:11.073] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+[11724:7132:1011/035011.431:ERROR:device_event_log_impl.cc(196)] [03:50:11.127] USB: usb_service_win.cc:308 SetupDiEnumDeviceInterfaces: No more data is available. (0x103)
+[11724:7132:1011/035011.431:ERROR:device_event_log_impl.cc(196)] [03:50:11.161] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+[11724:7132:1011/035011.431:ERROR:device_event_log_impl.cc(196)] [03:50:11.178] USB: usb_service_win.cc:308 SetupDiEnumDeviceInterfaces: No more data is available. (0x103)
+[11724:7132:1011/035137.042:ERROR:device_event_log_impl.cc(196)] [03:51:36.960] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+[11724:7132:1011/035819.009:WARNING:pref_notifier_impl.cc(41)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
+=======
+[5552:41012:1010/163100.082:WARNING:chrome_main_delegate.cc(745)] This is Chrome version 128.0.6613.138 (not a warning)
+[5552:25956:1010/163100.219:ERROR:google_update_settings.cc(265)] Failed opening key Software\Chromium to set usagestats; result: 5
+[5552:41012:1010/163100.228:WARNING:account_consistency_mode_manager.cc(77)] Desktop Identity Consistency cannot be enabled as no OAuth client ID and client secret have been configured.
+[5552:41012:1010/163105.848:ERROR:device_event_log_impl.cc(196)] [16:31:05.526] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+[45992:7540:1010/163105.853:ERROR:backend_impl.cc(989)] Critical error found -8
+[45992:7540:1010/163106.070:WARNING:storage_block-inl.h(138)] Failed data load.
+[33460:22020:1010/163106.517:WARNING:frame_impl.cc(430)] virtual CefFrameImpl::SendProcessMessage sent to detached frame 5-14CF33B0E54A483CD2936F0F3D78CABD will be ignored
+[5552:41012:1010/172551.692:WARNING:pref_notifier_impl.cc(41)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
+>>>>>>> main
+=======
 [39808:34868:1011/091317.665:WARNING:chrome_main_delegate.cc(745)] This is Chrome version 128.0.6613.138 (not a warning)
 [39808:44760:1011/091317.838:ERROR:google_update_settings.cc(265)] Failed opening key Software\Chromium to set usagestats; result: 5
 [39808:34868:1011/091317.910:WARNING:account_consistency_mode_manager.cc(77)] Desktop Identity Consistency cannot be enabled as no OAuth client ID and client secret have been configured.
 [39808:34868:1011/091323.740:ERROR:device_event_log_impl.cc(196)] [09:13:23.621] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
 [29064:44004:1011/091326.085:WARNING:frame_impl.cc(430)] virtual CefFrameImpl::SendProcessMessage sent to detached frame 5-874178BA762CC345E4AE8EBF63DDDBE0 will be ignored
 [39808:34868:1011/100440.709:WARNING:pref_notifier_impl.cc(41)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
+>>>>>>> main
