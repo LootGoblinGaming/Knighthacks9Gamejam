@@ -73,5 +73,5 @@ private:
     FVector CurrentPatrolTarget;
 
     UPROPERTY()
-	 UAnimInstance* ZombieAnimInstance = GetMesh()->GetAnimInstance();
+    UAnimInstance* ZombieAnimInstance = nullptr;
 };
