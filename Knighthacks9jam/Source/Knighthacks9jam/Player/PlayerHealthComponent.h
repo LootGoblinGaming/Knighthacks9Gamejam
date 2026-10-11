@@ -44,6 +44,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	bool TakeHit(AActor* Attacker);
 
+	/** Kills the player outright, ignoring the two-hit rule and the post-hit grace period (e.g. kill volumes) */
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void Kill(AActor* Killer);
+
 	UFUNCTION(BlueprintPure, Category = "Health")
 	bool IsDamaged() const { return bDamaged; }
 

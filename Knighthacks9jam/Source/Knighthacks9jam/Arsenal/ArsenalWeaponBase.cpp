@@ -9,8 +9,12 @@
 #include "TimerManager.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
+#include "GameFramework/Controller.h"
 #include "Kismet/GameplayStatics.h"
 #include "ArsenalEffects.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Animation/AnimInstance.h"
+#include "Animation/AnimMontage.h"
 
 AArsenalWeaponBase::AArsenalWeaponBase()
 {
@@ -107,7 +111,22 @@ void AArsenalWeaponBase::Fire()
 void AArsenalWeaponBase::PlayFireFeedback()
 {
 	UGameplayStatics::PlaySoundAtLocation(this, FireSound, MuzzlePoint->GetComponentLocation());
-	ArsenalEffects::SpawnEffectAttached(MuzzleFlashEffect, MuzzlePoint);
+	ArsenalEffects::SpawnEffectAttached(MuzzleFlashEffect, MuzzlePoint, MuzzleFlashDuration, MuzzleFlashScale, true);
+
+	// first-person characters have separate arms and body meshes; animate whichever can play it
+	if (FireMontage && OwningPawn)
+	{
+		TArray<USkeletalMeshComponent*> OwnerMeshes;
+		OwningPawn->GetComponents<USkeletalMeshComponent>(OwnerMeshes);
+		for (USkeletalMeshComponent* OwnerMesh : OwnerMeshes)
+		{
+			UAnimInstance* AnimInstance = OwnerMesh->GetAnimInstance();
+			if (AnimInstance && OwnerMesh->GetSkeletalMeshAsset() && OwnerMesh->GetSkeletalMeshAsset()->GetSkeleton() == FireMontage->GetSkeleton())
+			{
+				AnimInstance->Montage_Play(FireMontage);
+			}
+		}
+	}
 
 	APlayerController* PlayerController = OwningPawn ? Cast<APlayerController>(OwningPawn->GetController()) : nullptr;
 	if (!PlayerController)
@@ -133,9 +152,18 @@ void AArsenalWeaponBase::FireHitscan()
 		return;
 	}
 
+	// aim from the real camera when there is one: the pawn's BaseEyeHeight doesn't match a camera on a head socket,
+	// which made shots land below the crosshair
 	FVector EyeLocation;
 	FRotator EyeRotation;
-	OwningPawn->GetActorEyesViewPoint(EyeLocation, EyeRotation);
+	if (AController* OwnerController = OwningPawn->GetController())
+	{
+		OwnerController->GetPlayerViewPoint(EyeLocation, EyeRotation);
+	}
+	else
+	{
+		OwningPawn->GetActorEyesViewPoint(EyeLocation, EyeRotation);
+	}
 
 	const FVector TraceEnd = EyeLocation + (EyeRotation.Vector() * HitscanRange);
 

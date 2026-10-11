@@ -7,6 +7,9 @@
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
+#include "Components/Overlay.h"
+#include "Components/OverlaySlot.h"
+#include "Components/SizeBox.h"
 #include "Engine/Texture2D.h"
 
 #define LOCTEXT_NAMESPACE "PlayerScreens"
@@ -143,6 +146,96 @@ void UVictoryWidget::BuildMenu(UVerticalBox* Column)
 	AddTitle(Column, LOCTEXT("VictoryTitle", "YOU ESCAPED"), FLinearColor(0.2f, 0.95f, 0.5f));
 	AddButton(Column, LOCTEXT("PlayAgain", "Play Again"))->OnClicked.AddDynamic(this, &UVictoryWidget::OnRestartClicked);
 	AddButton(Column, LOCTEXT("VictoryMainMenu", "Main Menu"))->OnClicked.AddDynamic(this, &UVictoryWidget::OnMainMenuClicked);
+}
+
+bool UCrosshairWidget::Initialize()
+{
+	if (!Super::Initialize())
+	{
+		return false;
+	}
+
+	if (WidgetTree && !WidgetTree->RootWidget)
+	{
+		// transparent full-screen frame centring a "+" made of two thin bars
+		UBorder* Frame = WidgetTree->ConstructWidget<UBorder>(UBorder::StaticClass(), TEXT("Frame"));
+		Frame->SetBrushColor(FLinearColor::Transparent);
+		Frame->SetHorizontalAlignment(HAlign_Center);
+		Frame->SetVerticalAlignment(VAlign_Center);
+
+		UOverlay* Cross = WidgetTree->ConstructWidget<UOverlay>(UOverlay::StaticClass(), TEXT("Cross"));
+		Frame->SetContent(Cross);
+		AddLine(Cross, Size, Thickness);
+		AddLine(Cross, Thickness, Size);
+
+		WidgetTree->RootWidget = Frame;
+	}
+
+	SetVisibility(ESlateVisibility::HitTestInvisible);
+	return true;
+}
+
+void UCrosshairWidget::AddLine(UOverlay* Overlay, float Width, float Height)
+{
+	USizeBox* LineBox = WidgetTree->ConstructWidget<USizeBox>(USizeBox::StaticClass());
+	LineBox->SetWidthOverride(Width);
+	LineBox->SetHeightOverride(Height);
+
+	UImage* Line = WidgetTree->ConstructWidget<UImage>(UImage::StaticClass());
+	Line->SetColorAndOpacity(Color);
+	LineBox->SetContent(Line);
+
+	UOverlaySlot* LineSlot = Overlay->AddChildToOverlay(LineBox);
+	LineSlot->SetHorizontalAlignment(HAlign_Center);
+	LineSlot->SetVerticalAlignment(VAlign_Center);
+}
+
+bool UStaminaWheelWidget::Initialize()
+{
+	if (!Super::Initialize())
+	{
+		return false;
+	}
+
+	SetVisibility(ESlateVisibility::HitTestInvisible);
+	return true;
+}
+
+void UStaminaWheelWidget::SetStamina(float InFraction, bool bInExhausted)
+{
+	Fraction = FMath::Clamp(InFraction, 0.0f, 1.0f);
+	bExhausted = bInExhausted;
+}
+
+int32 UStaminaWheelWidget::NativePaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const
+{
+	LayerId = Super::NativePaint(Args, AllottedGeometry, MyCullingRect, OutDrawElements, LayerId, InWidgetStyle, bParentEnabled);
+
+	DrawArc(OutDrawElements, LayerId + 1, AllottedGeometry, InWidgetStyle, 1.0f, BackgroundColor);
+	DrawArc(OutDrawElements, LayerId + 2, AllottedGeometry, InWidgetStyle, Fraction, bExhausted ? ExhaustedColor : FillColor);
+	return LayerId + 2;
+}
+
+void UStaminaWheelWidget::DrawArc(FSlateWindowElementList& OutDrawElements, int32 LayerId, const FGeometry& AllottedGeometry, const FWidgetStyle& InWidgetStyle, float ArcFraction, const FLinearColor& Color) const
+{
+	if (ArcFraction <= 0.0f)
+	{
+		return;
+	}
+
+	const FVector2f Center = FVector2f(AllottedGeometry.GetLocalSize()) * 0.5f;
+	const int32 Segments = FMath::Max(2, FMath::CeilToInt(64.0f * ArcFraction));
+
+	// starts at 12 o'clock and runs clockwise, emptying back toward the top as stamina drains
+	TArray<FVector2f> Points;
+	Points.Reserve(Segments + 1);
+	for (int32 Index = 0; Index <= Segments; Index++)
+	{
+		const float Angle = -UE_HALF_PI + UE_TWO_PI * ArcFraction * (static_cast<float>(Index) / Segments);
+		Points.Add(Center + FVector2f(FMath::Cos(Angle), FMath::Sin(Angle)) * Radius);
+	}
+
+	FSlateDrawElement::MakeLines(OutDrawElements, LayerId, AllottedGeometry.ToPaintGeometry(), MoveTemp(Points), ESlateDrawEffect::None, Color * InWidgetStyle.GetColorAndOpacityTint(), true, Thickness);
 }
 
 bool UMessageToastWidget::Initialize()

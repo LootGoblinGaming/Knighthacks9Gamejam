@@ -15,7 +15,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEnemySpawned, APawn*, SpawnedEnem
  * in the level at once and stopping for good after TotalSpawnLimit. Optionally it only spawns while the player is
  * within ActivationRange, and never closer than MinDistanceFromPlayer, so enemies don't pop in in front of them.
  *
- * Every enemy it spawned that still exists counts toward MaxAlive - including cured zombies, so curing an area clears it.
+ * Cured (vaccinated) enemies count as dead: they stop counting toward MaxAlive, so the spawner replaces them
+ * (until TotalSpawnLimit is reached).
  */
 UCLASS()
 class KNIGHTHACKS9JAM_API AEnemySpawner : public AActor
@@ -29,11 +30,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawner")
 	TSubclassOf<APawn> SpawnClass;
 
-	/** Most enemies from this spawner that can exist at the same time */
+	/** Most uncured enemies from this spawner that can exist at the same time */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawner", meta = (ClampMin = 1))
 	int32 MaxAlive = 3;
 
-	/** Total enemies this spawner will ever create. 0 = no limit (keeps replacing enemies as they're removed). */
+	/** Total enemies this spawner will ever create. 0 = no limit (keeps replacing enemies as they're cured or removed). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawner", meta = (ClampMin = 0))
 	int32 TotalSpawnLimit = 0;
 
@@ -97,6 +98,10 @@ private:
 	TArray<TWeakObjectPtr<APawn>> SpawnedEnemies;
 	int32 TotalSpawned = 0;
 	FTimerHandle SpawnTimer;
+
+	/** Drops enemies that were destroyed or cured, so only active threats count toward MaxAlive */
+	void ForgetInactiveEnemies();
+	static bool IsEnemyActive(const APawn* Enemy);
 
 	void OnSpawnTimer();
 	bool IsPlayerInRange() const;

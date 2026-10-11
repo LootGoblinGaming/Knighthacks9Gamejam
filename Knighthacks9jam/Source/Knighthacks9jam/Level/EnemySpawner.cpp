@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "Kismet/GameplayStatics.h"
 #include "NavigationSystem.h"
+#include "VaccinationComponent.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
 
@@ -81,12 +82,29 @@ int32 AEnemySpawner::GetAliveCount() const
 	int32 Alive = 0;
 	for (const TWeakObjectPtr<APawn>& Enemy : SpawnedEnemies)
 	{
-		if (Enemy.IsValid())
+		if (IsEnemyActive(Enemy.Get()))
 		{
 			Alive++;
 		}
 	}
 	return Alive;
+}
+
+bool AEnemySpawner::IsEnemyActive(const APawn* Enemy)
+{
+	if (!Enemy)
+	{
+		return false;
+	}
+
+	// in this game a vaccinated zombie is out of the fight for good
+	const UVaccinationComponent* Vaccination = Enemy->FindComponentByClass<UVaccinationComponent>();
+	return !Vaccination || !Vaccination->IsVaccinated();
+}
+
+void AEnemySpawner::ForgetInactiveEnemies()
+{
+	SpawnedEnemies.RemoveAll([](const TWeakObjectPtr<APawn>& Enemy) { return !IsEnemyActive(Enemy.Get()); });
 }
 
 void AEnemySpawner::OnSpawnTimer()
@@ -111,7 +129,7 @@ APawn* AEnemySpawner::SpawnEnemy()
 		return nullptr;
 	}
 
-	SpawnedEnemies.RemoveAll([](const TWeakObjectPtr<APawn>& Enemy) { return !Enemy.IsValid(); });
+	ForgetInactiveEnemies();
 	if (SpawnedEnemies.Num() >= MaxAlive || (TotalSpawnLimit > 0 && TotalSpawned >= TotalSpawnLimit))
 	{
 		return nullptr;
@@ -129,22 +147,18 @@ APawn* AEnemySpawner::SpawnEnemy()
 		SpawnLocation.Z += CharacterDefaults->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
 	}
 
-	const FRotator SpawnRotation(0.0f, FMath::FRandRange(0.0f, 360.0f), 0.0f);
+	const FTransform SpawnTransform(FRotator(0.0f, FMath::FRandRange(0.0f, 360.0f), 0.0f), SpawnLocation);
 
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-
-	APawn* Enemy = GetWorld()->SpawnActor<APawn>(SpawnClass, SpawnLocation, SpawnRotation, SpawnParams);
+	APawn* Enemy = GetWorld()->SpawnActorDeferred<APawn>(SpawnClass, SpawnTransform, nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding);
 	if (!Enemy)
 	{
 		return nullptr;
 	}
 
-	// pawns only auto-possess "placed in world" by default, so spawned ones need their AI controller made explicitly
-	if (!Enemy->GetController())
-	{
-		Enemy->SpawnDefaultController();
-	}
+	// Pawns only auto-possess "placed in world" by default. Opting in before FinishSpawning gets the AI controller
+	// created during component init, i.e. before BeginPlay - the zombie classes cache their controller in BeginPlay.
+	Enemy->AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+	Enemy->FinishSpawning(SpawnTransform);
 
 	SpawnedEnemies.Add(Enemy);
 	TotalSpawned++;

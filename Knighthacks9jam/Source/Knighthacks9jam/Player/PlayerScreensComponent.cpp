@@ -2,6 +2,7 @@
 #include "PlayerHealthComponent.h"
 #include "PlayerScreenWidgets.h"
 #include "ArsenalInventoryComponent.h"
+#include "PlayerStaminaComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/Pawn.h"
@@ -22,6 +23,8 @@ UPlayerScreensComponent::UPlayerScreensComponent()
 	GameOverClass = UGameOverWidget::StaticClass();
 	VictoryClass = UVictoryWidget::StaticClass();
 	MessageClass = UMessageToastWidget::StaticClass();
+	CrosshairClass = UCrosshairWidget::StaticClass();
+	StaminaWheelClass = UStaminaWheelWidget::StaticClass();
 	PauseKeys = { EKeys::Escape, EKeys::P };
 }
 
@@ -30,6 +33,8 @@ void UPlayerScreensComponent::BeginPlay()
 	Super::BeginPlay();
 
 	Health = GetOwner()->FindComponentByClass<UPlayerHealthComponent>();
+	Inventory = GetOwner()->FindComponentByClass<UArsenalInventoryComponent>();
+	Stamina = GetOwner()->FindComponentByClass<UPlayerStaminaComponent>();
 	if (Health)
 	{
 		Health->OnDamaged.AddDynamic(this, &UPlayerScreensComponent::OnPlayerDamaged);
@@ -85,6 +90,23 @@ void UPlayerScreensComponent::SetupForController(APlayerController* NewPlayerCon
 		DamageOverlay->AddToViewport(0);
 	}
 
+	Crosshair = CreateScreen(CrosshairClass);
+	if (Crosshair)
+	{
+		Crosshair->SetVisibility(ESlateVisibility::Collapsed);
+		Crosshair->AddToViewport(2);
+	}
+
+	if (Stamina)
+	{
+		StaminaWheel = CreateScreen(StaminaWheelClass);
+		if (StaminaWheel)
+		{
+			StaminaWheel->SetRenderOpacity(0.0f);
+			StaminaWheel->AddToViewport(2);
+		}
+	}
+
 	GameplayHUD = CreateScreen(HUDClass);
 	if (GameplayHUD)
 	{
@@ -124,6 +146,30 @@ void UPlayerScreensComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	if (bPlayingDeathFall)
 	{
 		UpdateDeathFall(DeltaTime);
+	}
+
+	if (Crosshair)
+	{
+		const bool bHoldingWeapon = Inventory && Inventory->GetCurrentWeapon();
+		const ESlateVisibility WantedVisibility = bHoldingWeapon && !bPaused && !bGameOver ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed;
+		if (Crosshair->GetVisibility() != WantedVisibility)
+		{
+			Crosshair->SetVisibility(WantedVisibility);
+		}
+	}
+
+	if (StaminaWheel && Stamina)
+	{
+		const float Fraction = Stamina->GetStaminaFraction();
+		if (UStaminaWheelWidget* Wheel = Cast<UStaminaWheelWidget>(StaminaWheel))
+		{
+			Wheel->SetStamina(Fraction, Stamina->IsExhausted());
+		}
+
+		// visible while in use, then fades out a moment after refilling, like BotW
+		StaminaFullTime = Fraction >= 1.0f ? StaminaFullTime + DeltaTime : 0.0f;
+		const float TargetOpacity = (bGameOver || bPaused || StaminaFullTime > 0.6f) ? 0.0f : 1.0f;
+		StaminaWheel->SetRenderOpacity(FMath::FInterpTo(StaminaWheel->GetRenderOpacity(), TargetOpacity, DeltaTime, 8.0f));
 	}
 
 	if (MessageBanner && MessageTimeRemaining > 0.0f)
@@ -326,7 +372,7 @@ void UPlayerScreensComponent::StopPlayerForMatchEnd()
 {
 	ResumeGame();
 
-	if (UArsenalInventoryComponent* Inventory = GetOwner()->FindComponentByClass<UArsenalInventoryComponent>())
+	if (Inventory)
 	{
 		Inventory->StopFiringCurrentWeapon();
 	}

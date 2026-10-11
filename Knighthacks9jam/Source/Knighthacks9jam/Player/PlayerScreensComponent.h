@@ -42,6 +42,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Screens")
 	TSubclassOf<UUserWidget> MessageClass;
 
+	/** Shown at the screen centre while the player is holding a weapon. Clear it to have no crosshair. */
+	UPROPERTY(EditAnywhere, Category = "Screens")
+	TSubclassOf<UUserWidget> CrosshairClass;
+
+	/** Stamina ring around the crosshair, driven by a UPlayerStaminaComponent on the same actor. Clear it to hide. */
+	UPROPERTY(EditAnywhere, Category = "Screens")
+	TSubclassOf<UUserWidget> StaminaWheelClass;
+
 	/** Optional always-on gameplay HUD (e.g. the supplies checklist), shown in every level this player is in */
 	UPROPERTY(EditAnywhere, Category = "Screens")
 	TSubclassOf<UUserWidget> HUDClass;
@@ -160,6 +168,21 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UUserWidget> GameplayHUD;
+
+	UPROPERTY()
+	TObjectPtr<UUserWidget> Crosshair;
+
+	UPROPERTY()
+	TObjectPtr<class UArsenalInventoryComponent> Inventory;
+
+	UPROPERTY()
+	TObjectPtr<UUserWidget> StaminaWheel;
+
+	UPROPERTY()
+	TObjectPtr<class UPlayerStaminaComponent> Stamina;
+
+	/** Seconds the stamina has been full, used to fade the wheel out */
+	float StaminaFullTime = 0.0f;
 
 	float MessageTimeRemaining = 0.0f;
 	FTimerHandle VictoryTimer;

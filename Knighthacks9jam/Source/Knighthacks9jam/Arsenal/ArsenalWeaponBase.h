@@ -10,6 +10,7 @@ class USceneComponent;
 class USoundBase;
 class UNiagaraSystem;
 class UCameraShakeBase;
+class UAnimMontage;
 
 /**
  * Base class for the non-lethal arsenal weapons (Bio-Foam Payload, Inhibitor Rifle, Vaccine Pistol).
@@ -76,6 +77,14 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Feedback")
 	TObjectPtr<UNiagaraSystem> MuzzleFlashEffect;
 
+	/** Size multiplier for the muzzle flash (0.5 = half size). Some effects ignore scale; shorten the duration instead. */
+	UPROPERTY(EditAnywhere, Category = "Feedback", meta = (ClampMin = 0.01, ClampMax = 10))
+	float MuzzleFlashScale = 0.4f;
+
+	/** How long the muzzle flash lasts before it's cut off */
+	UPROPERTY(EditAnywhere, Category = "Feedback", meta = (ClampMin = 0.02, ClampMax = 3, Units = "s"))
+	float MuzzleFlashDuration = 0.15f;
+
 	/** Upward camera kick per shot, for player owners */
 	UPROPERTY(EditAnywhere, Category = "Feedback", meta = (ClampMin = 0, ClampMax = 10, Units = "Degrees"))
 	float RecoilPitch = 0.6f;
@@ -83,6 +92,10 @@ protected:
 	/** Max random sideways camera kick per shot, either direction */
 	UPROPERTY(EditAnywhere, Category = "Feedback", meta = (ClampMin = 0, ClampMax = 10, Units = "Degrees"))
 	float RecoilYawJitter = 0.2f;
+
+	/** Played on every skeletal mesh of the owning character per shot (first-person arms and world body). Needs a matching Slot in their Anim Blueprint. */
+	UPROPERTY(EditAnywhere, Category = "Feedback")
+	TObjectPtr<UAnimMontage> FireMontage;
 
 	/** Optional camera shake played on the owning player per shot */
 	UPROPERTY(EditAnywhere, Category = "Feedback")
@@ -110,7 +123,7 @@ protected:
 	/** Sound, muzzle flash, recoil and camera shake for one shot */
 	void PlayFireFeedback();
 
-	/** Traces from the owning Pawn's eyes along its look direction and applies the impact at wherever the trace lands */
+	/** Traces from the owner's camera (or eyes, for AI) along its look direction and applies the impact at wherever the trace lands */
 	virtual void FireHitscan();
 
 public:
