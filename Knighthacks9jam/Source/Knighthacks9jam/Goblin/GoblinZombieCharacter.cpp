@@ -12,7 +12,7 @@ AGoblinZombieCharacter::AGoblinZombieCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	
+	GetCharacterMovement()->MaxWalkSpeed = PatrolSpeed;
 	MovementModifier = CreateDefaultSubobject<UMovementModifierComponent>(TEXT("MovementModifier"));
 	//rotate character toward the player
 	bUseControllerRotationYaw = false;
@@ -26,7 +26,7 @@ void AGoblinZombieCharacter::BeginPlay()
 	Super::BeginPlay();
 	GoblinController = Cast<AGoblinAIController>(Controller);
 	PlayerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-	ZombieAnimInstance = GetMesh()->GetAnimInstance();
+	GoblinZombieAnimInstance = GetMesh()->GetAnimInstance();
 	SetState(EGoblinZombieState::Patrol);
 	SelectRandomPatrolPoint();
 }
@@ -35,48 +35,80 @@ void AGoblinZombieCharacter::BeginPlay()
 void AGoblinZombieCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
 	if(CurrentState == EGoblinZombieState::Dead)
 		return;
+	
 	if(!PlayerCharacter)
 		return;
+	
 	float distanceToPlayer = FVector::Dist(GetActorLocation(), PlayerCharacter->GetActorLocation());
-	if(distanceToPlayer < DetectionRange && CurrentState != EGoblinZombieState::Attack)
-	{
-		SetState(EGoblinZombieState::Chase);
-	}
-	else if(distanceToPlayer >= DetectionRange && CurrentState == EGoblinZombieState::Chase)
-	{
-		SetState(EGoblinZombieState::Patrol);
-	}
-	else if(distanceToPlayer < AttackRange)
+	
+	// Check Attack FIRST (smallest range)
+	if(distanceToPlayer < AttackRange)
 	{
 		SetState(EGoblinZombieState::Attack);
 	}
+	// Chase when in detection range but NOT in attack range
+	else if(distanceToPlayer < DetectionRange)
+	{
+		SetState(EGoblinZombieState::Chase);
+	}
+	// Patrol when out of detection range
+	else
+	{
+		SetState(EGoblinZombieState::Patrol);
+	}
+	
 	UpdateAIState();
 }
 
 void AGoblinZombieCharacter::SetState(EGoblinZombieState NewState)
 {
-	if(CurrentState == NewState)
-		return;
-	CurrentState = NewState;
-	switch(CurrentState)
-	{
-	case EGoblinZombieState::Patrol:
-		GetCharacterMovement()->MaxWalkSpeed = PatrolSpeed;
-		break;
-	case EGoblinZombieState::Chase:
-		GetCharacterMovement()->MaxWalkSpeed = ChaseSpeed;
-		break;
-	case EGoblinZombieState::Attack:
-		GetCharacterMovement()->MaxWalkSpeed = 0.0f;
-		break;
-	case EGoblinZombieState::Dead:
-		GetCharacterMovement()->DisableMovement();
-		break;
-	default:
-		break;
-	}
+    if (CurrentState == NewState)
+        return;
+
+    CurrentState = NewState;
+
+    float NewSpeed = 0.0f;
+
+    switch (CurrentState)
+    {
+        case EGoblinZombieState::Patrol:
+            GetCharacterMovement()->bOrientRotationToMovement = true;  // Auto-rotate toward movement
+            NewSpeed = PatrolSpeed;
+            break;
+        
+        case EGoblinZombieState::Chase:
+            GetCharacterMovement()->bOrientRotationToMovement = true;  // Auto-rotate toward movement (player)
+            NewSpeed = ChaseSpeed;
+            break;
+        
+        case EGoblinZombieState::Attack:
+            GetCharacterMovement()->bOrientRotationToMovement = false;  // Disable auto-rotation
+            NewSpeed = 0.0f;
+            break;
+        
+        case EGoblinZombieState::Dead:
+            GetCharacterMovement()->DisableMovement();
+            break;
+    }
+
+    // Update animation ground speed
+    if (GoblinZombieAnimInstance)
+    {
+        FFloatProperty* SpeedProperty = FindFProperty<FFloatProperty>(
+            GoblinZombieAnimInstance->GetClass(),
+            TEXT("Ground Speed")
+        );
+
+        if (SpeedProperty)
+        {
+            SpeedProperty->SetValue_InContainer(GoblinZombieAnimInstance, NewSpeed);
+        }
+    }
+
+    GetCharacterMovement()->MaxWalkSpeed = NewSpeed;
 }
 
 void AGoblinZombieCharacter::UpdateAIState()
@@ -125,15 +157,21 @@ void AGoblinZombieCharacter::ChasePlayer()
 }
 void AGoblinZombieCharacter::AttackPlayer()
 {
-	if(!PlayerCharacter)
-		return;
-	// Play attack animation
-	// Simple attack - just face the player
-	FVector DirectionToPlayer = (PlayerCharacter->GetActorLocation() - GetActorLocation()).GetSafeNormal();
-	FRotator NewRotation = DirectionToPlayer.Rotation();
-	SetActorRotation(NewRotation);
-	// Deal damage to player (this is just a placeholder, you would need to implement actual damage logic)
-	// PlayerCharacter->TakeDamage(10.0f, FDamageEvent(), GoblinController, this);
+    if (!PlayerCharacter)
+        return;
+
+    // Disable auto-rotation so we can manually rotate
+    GetCharacterMovement()->bOrientRotationToMovement = false;
+
+    // Face the player - rotate the capsule (actor)
+    FVector DirectionToPlayer = (PlayerCharacter->GetActorLocation() - GetActorLocation()).GetSafeNormal();
+    FRotator NewRotation = DirectionToPlayer.Rotation();
+    
+    // Rotate only yaw to face player
+    FRotator YawOnlyRotation(0.0f, NewRotation.Yaw, 0.0f);
+    SetActorRotation(YawOnlyRotation);
+	
+   
 }
 
 void AGoblinZombieCharacter::TakeDamage(float Damage)
@@ -158,4 +196,16 @@ void AGoblinZombieCharacter::Die()
 	// Destroy the actor after a delay
 //	SetLifeSpan(5.0f);
 }
+
+
+
+
+
+
+
+
+
+
+
+
 

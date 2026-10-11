@@ -1,3 +1,5 @@
-2026/10/10-19:12:59.152 c5a8 Reusing MANIFEST C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\Local Storage\leveldb/MANIFEST-000001
-2026/10/10-19:12:59.156 c5a8 Recovering log #4
-2026/10/10-19:12:59.158 c5a8 Reusing old log C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\Local Storage\leveldb/000004.log 
+2026/10/10-22:16:29.634 5294 Reusing MANIFEST C:\Users\Ovidi\Documents\Knighthacks9Gamejam\Knighthacks9jam\Saved\webcache_6613\Default\Local Storage\leveldb/MANIFEST-000001
+2026/10/10-22:16:29.638 5294 Recovering log #4
+2026/10/10-22:16:29.639 5294 Level-0 table #3: started
+2026/10/10-22:16:29.643 5294 Level-0 table #3: 63301 bytes OK
+2026/10/10-22:16:29.647 5294 Delete type=0 #4
