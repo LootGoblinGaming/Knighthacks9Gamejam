@@ -8,6 +8,13 @@
 #include "CollisionQueryParams.h"
 #include "TimerManager.h"
 #include "GameFramework/Pawn.h"
+#include "GameFramework/PlayerController.h"
+#include "GameFramework/Controller.h"
+#include "Kismet/GameplayStatics.h"
+#include "ArsenalEffects.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Animation/AnimInstance.h"
+#include "Animation/AnimMontage.h"
 
 AArsenalWeaponBase::AArsenalWeaponBase()
 {
@@ -34,6 +41,21 @@ void AArsenalWeaponBase::BeginPlay()
 void AArsenalWeaponBase::StartFiring()
 {
 	bIsFiring = true;
+
+	FTimerManager& TimerManager = GetWorld()->GetTimerManager();
+	if (TimerManager.IsTimerActive(RefireTimer))
+	{
+		return;
+	}
+
+	// still cooling down from the last shot: fire as soon as it's ready, if the trigger is still held by then
+	const double CooldownRemaining = RefireRate - (GetWorld()->GetTimeSeconds() - LastFireTime);
+	if (CooldownRemaining > 0.0)
+	{
+		TimerManager.SetTimer(RefireTimer, this, &AArsenalWeaponBase::Fire, CooldownRemaining, false);
+		return;
+	}
+
 	Fire();
 }
 
@@ -55,6 +77,8 @@ void AArsenalWeaponBase::Fire()
 		return;
 	}
 
+	LastFireTime = GetWorld()->GetTimeSeconds();
+
 	if (bHitscanWeapon)
 	{
 		FireHitscan();
@@ -72,6 +96,8 @@ void AArsenalWeaponBase::Fire()
 		GetWorld()->SpawnActor<AArsenalProjectileBase>(ProjectileClass, FTransform(SpawnRotation, SpawnLocation), SpawnParams);
 	}
 
+	PlayFireFeedback();
+
 	if (bFullAuto)
 	{
 		GetWorld()->GetTimerManager().SetTimer(RefireTimer, this, &AArsenalWeaponBase::Fire, RefireRate, false);
@@ -82,6 +108,43 @@ void AArsenalWeaponBase::Fire()
 	}
 }
 
+void AArsenalWeaponBase::PlayFireFeedback()
+{
+	UGameplayStatics::PlaySoundAtLocation(this, FireSound, MuzzlePoint->GetComponentLocation());
+	ArsenalEffects::SpawnEffectAttached(MuzzleFlashEffect, MuzzlePoint, MuzzleFlashDuration, MuzzleFlashScale, true);
+
+	// first-person characters have separate arms and body meshes; animate whichever can play it
+	if (FireMontage && OwningPawn)
+	{
+		TArray<USkeletalMeshComponent*> OwnerMeshes;
+		OwningPawn->GetComponents<USkeletalMeshComponent>(OwnerMeshes);
+		for (USkeletalMeshComponent* OwnerMesh : OwnerMeshes)
+		{
+			UAnimInstance* AnimInstance = OwnerMesh->GetAnimInstance();
+			if (AnimInstance && OwnerMesh->GetSkeletalMeshAsset() && OwnerMesh->GetSkeletalMeshAsset()->GetSkeleton() == FireMontage->GetSkeleton())
+			{
+				AnimInstance->Montage_Play(FireMontage);
+			}
+		}
+	}
+
+	APlayerController* PlayerController = OwningPawn ? Cast<APlayerController>(OwningPawn->GetController()) : nullptr;
+	if (!PlayerController)
+	{
+		return;
+	}
+
+	FRotator ControlRotation = PlayerController->GetControlRotation();
+	ControlRotation.Pitch += RecoilPitch;
+	ControlRotation.Yaw += FMath::FRandRange(-RecoilYawJitter, RecoilYawJitter);
+	PlayerController->SetControlRotation(ControlRotation);
+
+	if (FireCameraShake)
+	{
+		PlayerController->ClientStartCameraShake(FireCameraShake);
+	}
+}
+
 void AArsenalWeaponBase::FireHitscan()
 {
 	if (!OwningPawn)
@@ -89,9 +152,18 @@ void AArsenalWeaponBase::FireHitscan()
 		return;
 	}
 
+	// aim from the real camera when there is one: the pawn's BaseEyeHeight doesn't match a camera on a head socket,
+	// which made shots land below the crosshair
 	FVector EyeLocation;
 	FRotator EyeRotation;
-	OwningPawn->GetActorEyesViewPoint(EyeLocation, EyeRotation);
+	if (AController* OwnerController = OwningPawn->GetController())
+	{
+		OwnerController->GetPlayerViewPoint(EyeLocation, EyeRotation);
+	}
+	else
+	{
+		OwningPawn->GetActorEyesViewPoint(EyeLocation, EyeRotation);
+	}
 
 	const FVector TraceEnd = EyeLocation + (EyeRotation.Vector() * HitscanRange);
 
@@ -115,6 +187,18 @@ void AArsenalWeaponBase::FireHitscan()
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParams.Owner = GetOwner();
 	SpawnParams.Instigator = OwningPawn;
+
+	if (bHitscanVisualFlight)
+	{
+		const FVector MuzzleLocation = MuzzlePoint->GetComponentLocation();
+		const FRotator FlightRotation = (Hit.ImpactPoint - MuzzleLocation).Rotation();
+
+		if (AArsenalProjectileBase* Round = GetWorld()->SpawnActor<AArsenalProjectileBase>(ProjectileClass, FTransform(FlightRotation, MuzzleLocation), SpawnParams))
+		{
+			Round->LaunchHitscanFlight(Hit, HitscanVisualSpeed, HitscanMaxFlightTime);
+		}
+		return;
+	}
 
 	AArsenalProjectileBase* ImpactActor = GetWorld()->SpawnActor<AArsenalProjectileBase>(ProjectileClass, FTransform(Hit.ImpactNormal.Rotation(), Hit.ImpactPoint), SpawnParams);
 	if (ImpactActor)
