@@ -37,7 +37,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Goblin Settings")
 	float DetectionRange = 1000.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Goblin	 Settings")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Goblin Settings")
 	float AttackRange = 200.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Goblin Settings")
@@ -76,5 +76,5 @@ public:
 	FVector CurrentPatrolTarget;
 
 	UPROPERTY()
-	UAnimInstance* ZombieAnimInstance = nullptr;
+	UAnimInstance* GoblinZombieAnimInstance = nullptr;
 };

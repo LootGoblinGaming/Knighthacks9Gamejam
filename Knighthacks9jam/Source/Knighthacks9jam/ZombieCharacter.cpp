@@ -43,17 +43,20 @@ void AZombieCharacter::Tick(float DeltaTime)
     float DistanceToPlayer = FVector::Dist(GetActorLocation(), PlayerCharacter->GetActorLocation());
 
     // Transition logic
-    if (DistanceToPlayer < DetectionRange && CurrentState != EZombieState::Attack)
+   // Check Attack FIRST (smallest range)
+    if (DistanceToPlayer < AttackRange)
+    {
+        SetState(EZombieState::Attack);
+    }
+    // Chase when in detection range but NOT in attack range
+    else if (DistanceToPlayer < DetectionRange)
     {
         SetState(EZombieState::Chase);
     }
-    else if (DistanceToPlayer >= DetectionRange && CurrentState == EZombieState::Chase)
+    // Patrol when out of detection range
+    else
     {
         SetState(EZombieState::Patrol);
-    }
-    else if (DistanceToPlayer < AttackRange)
-    {
-        SetState(EZombieState::Attack);
     }
 
     UpdateAIState();
@@ -76,6 +79,7 @@ void AZombieCharacter::SetState(EZombieState NewState)
             break;
         case EZombieState::Attack:
             MovementModifier->SetBaseSpeed(0.0f);
+			AttackPlayer();
             break;
         case EZombieState::Dead:
             GetCharacterMovement()->DisableMovement();
@@ -94,7 +98,7 @@ void AZombieCharacter::UpdateAIState()
             ChasePlayer();
             break;
         case EZombieState::Attack:
-            AttackPlayer();
+          //  AttackPlayer();
             break;
         case EZombieState::Dead:
             break;
