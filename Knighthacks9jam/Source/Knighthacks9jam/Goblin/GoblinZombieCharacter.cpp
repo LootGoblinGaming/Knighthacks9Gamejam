@@ -14,6 +14,10 @@ AGoblinZombieCharacter::AGoblinZombieCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	GetCharacterMovement()->MaxWalkSpeed = PatrolSpeed;
 	MovementModifier = CreateDefaultSubobject<UMovementModifierComponent>(TEXT("MovementModifier"));
+	// BeginPlay only drives movement through a GoblinAIController, so make sure that's the controller goblins get,
+	// whether they're placed in the level or spawned
+	AIControllerClass = AGoblinAIController::StaticClass();
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	//rotate character toward the player
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
