@@ -278,7 +278,10 @@ void UPlayerScreensComponent::UpdateDeathFall(float DeltaTime)
 
 	if (DeathCamera)
 	{
-		DeathCamera->SetRelativeLocation(DeathCameraStartLocation - FVector(0.0f, 0.0f, DeathCameraDrop * Alpha));
+		// sink straight down in world space: the camera rides a head socket whose local axes depend on the rig,
+		// so a relative-Z offset would slide it sideways on some characters
+		DeathCamera->SetRelativeLocation(DeathCameraStartLocation);
+		DeathCamera->AddWorldOffset(FVector(0.0f, 0.0f, -DeathCameraDrop * Alpha));
 	}
 
 	if (Alpha >= 1.0f)
