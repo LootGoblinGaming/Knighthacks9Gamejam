@@ -14,5 +14,9 @@ namespace ArsenalEffects
 {
 	void SpawnEffectAtLocation(const UObject* WorldContextObject, UNiagaraSystem* Effect, const FVector& Location, const FRotator& Rotation, float MaxLifetime = 3.0f);
 
-	void SpawnEffectAttached(UNiagaraSystem* Effect, USceneComponent* AttachTo, float MaxLifetime = 3.0f);
+	/**
+	 * Scale multiplies the effect's size. bCutOffAtLifetime removes live particles at MaxLifetime instead of
+	 * letting them fade out, for short bursts like muzzle flashes.
+	 */
+	void SpawnEffectAttached(UNiagaraSystem* Effect, USceneComponent* AttachTo, float MaxLifetime = 3.0f, float Scale = 1.0f, bool bCutOffAtLifetime = false);
 }

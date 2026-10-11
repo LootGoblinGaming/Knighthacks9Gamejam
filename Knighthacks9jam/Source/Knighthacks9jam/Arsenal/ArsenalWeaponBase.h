@@ -10,6 +10,7 @@ class USceneComponent;
 class USoundBase;
 class UNiagaraSystem;
 class UCameraShakeBase;
+class UAnimMontage;
 
 /**
  * Base class for the non-lethal arsenal weapons (Bio-Foam Payload, Inhibitor Rifle, Vaccine Pistol).
@@ -56,6 +57,18 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Aim", meta = (EditCondition = "bHitscanWeapon", ClampMin = 100, ClampMax = 50000, Units = "cm"))
 	float HitscanRange = 10000.0f;
 
+	/** Hitscan only: the round visibly flies from the muzzle to the hit point and lands the hit on arrival, instead of appearing there */
+	UPROPERTY(EditAnywhere, Category = "Aim", meta = (EditCondition = "bHitscanWeapon"))
+	bool bHitscanVisualFlight = true;
+
+	/** Speed of the visible round on its way to the hit point */
+	UPROPERTY(EditAnywhere, Category = "Aim", meta = (EditCondition = "bHitscanWeapon && bHitscanVisualFlight", ClampMin = 500, Units = "CentimetersPerSecond"))
+	float HitscanVisualSpeed = 9000.0f;
+
+	/** Long shots speed the round up so the hit never lands later than this after the trigger pull */
+	UPROPERTY(EditAnywhere, Category = "Aim", meta = (EditCondition = "bHitscanWeapon && bHitscanVisualFlight", ClampMin = 0.01, ClampMax = 1, Units = "s"))
+	float HitscanMaxFlightTime = 0.2f;
+
 	/** Played at the muzzle on every shot */
 	UPROPERTY(EditAnywhere, Category = "Feedback")
 	TObjectPtr<USoundBase> FireSound;
@@ -64,6 +77,14 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Feedback")
 	TObjectPtr<UNiagaraSystem> MuzzleFlashEffect;
 
+	/** Size multiplier for the muzzle flash (0.5 = half size). Some effects ignore scale; shorten the duration instead. */
+	UPROPERTY(EditAnywhere, Category = "Feedback", meta = (ClampMin = 0.01, ClampMax = 10))
+	float MuzzleFlashScale = 0.4f;
+
+	/** How long the muzzle flash lasts before it's cut off */
+	UPROPERTY(EditAnywhere, Category = "Feedback", meta = (ClampMin = 0.02, ClampMax = 3, Units = "s"))
+	float MuzzleFlashDuration = 0.15f;
+
 	/** Upward camera kick per shot, for player owners */
 	UPROPERTY(EditAnywhere, Category = "Feedback", meta = (ClampMin = 0, ClampMax = 10, Units = "Degrees"))
 	float RecoilPitch = 0.6f;
@@ -71,6 +92,10 @@ protected:
 	/** Max random sideways camera kick per shot, either direction */
 	UPROPERTY(EditAnywhere, Category = "Feedback", meta = (ClampMin = 0, ClampMax = 10, Units = "Degrees"))
 	float RecoilYawJitter = 0.2f;
+
+	/** Played on every skeletal mesh of the owning character per shot (first-person arms and world body). Needs a matching Slot in their Anim Blueprint. */
+	UPROPERTY(EditAnywhere, Category = "Feedback")
+	TObjectPtr<UAnimMontage> FireMontage;
 
 	/** Optional camera shake played on the owning player per shot */
 	UPROPERTY(EditAnywhere, Category = "Feedback")
@@ -98,7 +123,7 @@ protected:
 	/** Sound, muzzle flash, recoil and camera shake for one shot */
 	void PlayFireFeedback();
 
-	/** Traces from the owning Pawn's eyes along its look direction and applies the impact at wherever the trace lands */
+	/** Traces from the owner's camera (or eyes, for AI) along its look direction and applies the impact at wherever the trace lands */
 	virtual void FireHitscan();
 
 public:

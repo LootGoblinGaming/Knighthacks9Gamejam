@@ -7,6 +7,7 @@
 class USphereComponent;
 class UProjectileMovementComponent;
 class USoundBase;
+class UArrowComponent;
 class UNiagaraSystem;
 
 /**
@@ -27,6 +28,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovement;
+
+	/** Editor-only: points the way the projectile flies. Rotate added meshes so their tip lines up with it. */
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	TObjectPtr<UArrowComponent> FlightDirectionArrow;
 
 protected:
 	/** Loudness of the AI perception noise made by this projectile on impact */
@@ -95,8 +100,19 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Projectile")
 	void SimulateInstantHit(const FHitResult& Hit);
 
+	/**
+	 * Hitscan presentation: flies (visual only, no collision) from where it was spawned to Hit.ImpactPoint at Speed,
+	 * sped up if needed so the trip never takes longer than MaxFlightTime, then applies Hit on arrival.
+	 */
+	void LaunchHitscanFlight(const FHitResult& Hit, float Speed, float MaxFlightTime);
+
 private:
 	FRotator ActiveSpinRate = FRotator::ZeroRotator;
+
+	FHitResult PendingHitscanHit;
+	FTimerHandle HitscanFlightTimer;
+
+	void OnHitscanFlightArrived();
 
 	void ProcessImpact(const FHitResult& Hit);
 	void StartRicochet(const FHitResult& Hit);

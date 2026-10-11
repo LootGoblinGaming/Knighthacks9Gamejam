@@ -27,6 +27,17 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Arsenal")
 	FName WeaponAttachSocket = NAME_None;
 
+	/**
+	 * Name of the skeletal mesh component that holds the weapons, e.g. the first-person arms ("FirstPersonMesh").
+	 * Falls back to the character's main Mesh if no component has this name.
+	 */
+	UPROPERTY(EditAnywhere, Category = "Arsenal")
+	FName WeaponAttachComponentName = FName("FirstPersonMesh");
+
+	/** Draw held weapons with first-person rendering, so they line up with first-person arms and don't clip into walls */
+	UPROPERTY(EditAnywhere, Category = "Arsenal")
+	bool bRenderWeaponsFirstPerson = true;
+
 	UFUNCTION(BlueprintCallable, Category = "Arsenal")
 	void EquipWeaponByIndex(int32 Index);
 

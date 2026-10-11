@@ -36,6 +36,24 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Screens")
 	TSubclassOf<UUserWidget> GameOverClass;
 
+	UPROPERTY(EditAnywhere, Category = "Screens")
+	TSubclassOf<UUserWidget> VictoryClass;
+
+	UPROPERTY(EditAnywhere, Category = "Screens")
+	TSubclassOf<UUserWidget> MessageClass;
+
+	/** Shown at the screen centre while the player is holding a weapon. Clear it to have no crosshair. */
+	UPROPERTY(EditAnywhere, Category = "Screens")
+	TSubclassOf<UUserWidget> CrosshairClass;
+
+	/** Stamina ring around the crosshair, driven by a UPlayerStaminaComponent on the same actor. Clear it to hide. */
+	UPROPERTY(EditAnywhere, Category = "Screens")
+	TSubclassOf<UUserWidget> StaminaWheelClass;
+
+	/** Optional always-on gameplay HUD (e.g. the supplies checklist), shown in every level this player is in */
+	UPROPERTY(EditAnywhere, Category = "Screens")
+	TSubclassOf<UUserWidget> HUDClass;
+
 	/** Optional blood splatter image (with transparency) for the damage overlay; a red wash is used if empty */
 	UPROPERTY(EditAnywhere, Category = "Screens")
 	TObjectPtr<UTexture2D> BloodOverlayTexture;
@@ -107,6 +125,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Screens")
 	void QuitToMainMenu();
 
+	/**
+	 * Ends the run as a win: stops the player, makes them immune to further hits, and shows the victory screen
+	 * after Delay seconds (e.g. to let an extraction camera shot play first).
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Screens", meta = (AdvancedDisplay = "Delay"))
+	void ShowVictory(float Delay = 2.0f);
+
+	/** Shows a short hint banner near the bottom of the screen for Duration seconds, fading out at the end */
+	UFUNCTION(BlueprintCallable, Category = "Screens")
+	void ShowMessage(const FText& Message, float Duration = 3.0f);
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(EEndPlayReason::Type EndPlayReason) override;
@@ -131,7 +160,35 @@ private:
 	UPROPERTY()
 	TObjectPtr<UUserWidget> GameOverScreen;
 
+	UPROPERTY()
+	TObjectPtr<UUserWidget> VictoryScreen;
+
+	UPROPERTY()
+	TObjectPtr<UUserWidget> MessageBanner;
+
+	UPROPERTY()
+	TObjectPtr<UUserWidget> GameplayHUD;
+
+	UPROPERTY()
+	TObjectPtr<UUserWidget> Crosshair;
+
+	UPROPERTY()
+	TObjectPtr<class UArsenalInventoryComponent> Inventory;
+
+	UPROPERTY()
+	TObjectPtr<UUserWidget> StaminaWheel;
+
+	UPROPERTY()
+	TObjectPtr<class UPlayerStaminaComponent> Stamina;
+
+	/** Seconds the stamina has been full, used to fade the wheel out */
+	float StaminaFullTime = 0.0f;
+
+	float MessageTimeRemaining = 0.0f;
+	FTimerHandle VictoryTimer;
+
 	bool bPaused = false;
+	/** True once the run has ended either way (died or escaped); blocks pausing and further deaths */
 	bool bGameOver = false;
 
 	// hit snap: an offset layered on the control rotation and removed again, so the player's own aiming is untouched
@@ -168,6 +225,8 @@ private:
 
 	void SetupForController(APlayerController* NewPlayerController);
 	void ShowGameOver();
+	void DisplayVictoryScreen();
+	void StopPlayerForMatchEnd();
 	void DebugHurt();
 
 	UUserWidget* CreateScreen(TSubclassOf<UUserWidget> WidgetClass);

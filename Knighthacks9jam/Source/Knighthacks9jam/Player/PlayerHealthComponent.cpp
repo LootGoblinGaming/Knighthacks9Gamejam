@@ -49,6 +49,18 @@ bool UPlayerHealthComponent::TakeHit(AActor* Attacker)
 	return true;
 }
 
+void UPlayerHealthComponent::Kill(AActor* Killer)
+{
+	if (bDead)
+	{
+		return;
+	}
+
+	bDead = true;
+	GetWorld()->GetTimerManager().ClearTimer(RecoveryTimer);
+	OnDied.Broadcast(Killer);
+}
+
 float UPlayerHealthComponent::GetDamageOverlayAlpha() const
 {
 	if (bDead)

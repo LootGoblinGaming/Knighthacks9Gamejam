@@ -1,6 +1,7 @@
 #include "ArsenalProjectileBase.h"
 #include "Components/SphereComponent.h"
 #include "Components/MeshComponent.h"
+#include "Components/ArrowComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
@@ -18,6 +19,14 @@ AArsenalProjectileBase::AArsenalProjectileBase()
 	CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	CollisionComponent->SetCollisionResponseToAllChannels(ECR_Block);
 	CollisionComponent->CanCharacterStepUpOn = ECanBeCharacterBase::ECB_No;
+
+	FlightDirectionArrow = CreateEditorOnlyDefaultSubobject<UArrowComponent>(TEXT("FlightDirectionArrow"));
+	if (FlightDirectionArrow)
+	{
+		FlightDirectionArrow->SetupAttachment(RootComponent);
+		FlightDirectionArrow->ArrowSize = 0.5f;
+		FlightDirectionArrow->SetArrowColor(FLinearColor(1.0f, 0.4f, 0.0f));
+	}
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement"));
 	ProjectileMovement->InitialSpeed = 2500.0f;
@@ -55,6 +64,7 @@ void AArsenalProjectileBase::EndPlay(EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 
 	GetWorld()->GetTimerManager().ClearTimer(DestructionTimer);
+	GetWorld()->GetTimerManager().ClearTimer(HitscanFlightTimer);
 }
 
 void AArsenalProjectileBase::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit)
@@ -65,6 +75,35 @@ void AArsenalProjectileBase::NotifyHit(UPrimitiveComponent* MyComp, AActor* Othe
 void AArsenalProjectileBase::SimulateInstantHit(const FHitResult& Hit)
 {
 	ProcessImpact(Hit);
+}
+
+void AArsenalProjectileBase::LaunchHitscanFlight(const FHitResult& Hit, float Speed, float MaxFlightTime)
+{
+	const FVector ToTarget = Hit.ImpactPoint - GetActorLocation();
+	const float Distance = ToTarget.Size();
+	if (Distance < 1.0f || Speed <= 0.0f)
+	{
+		ProcessImpact(Hit);
+		return;
+	}
+
+	const float FlightSpeed = FMath::Max(Speed, Distance / FMath::Max(MaxFlightTime, 0.01f));
+	PendingHitscanHit = Hit;
+
+	// the hit was already decided by the trace; the flight is just for show, so it mustn't collide with anything on the way
+	CollisionComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	ProjectileMovement->ProjectileGravityScale = 0.0f;
+	ProjectileMovement->MaxSpeed = 0.0f;
+	ProjectileMovement->Velocity = ToTarget / Distance * FlightSpeed;
+	SetActorRotation(ToTarget.Rotation());
+
+	GetWorld()->GetTimerManager().SetTimer(HitscanFlightTimer, this, &AArsenalProjectileBase::OnHitscanFlightArrived, Distance / FlightSpeed, false);
+}
+
+void AArsenalProjectileBase::OnHitscanFlightArrived()
+{
+	SetActorLocation(PendingHitscanHit.ImpactPoint);
+	ProcessImpact(PendingHitscanHit);
 }
 
 void AArsenalProjectileBase::ProcessImpact(const FHitResult& Hit)

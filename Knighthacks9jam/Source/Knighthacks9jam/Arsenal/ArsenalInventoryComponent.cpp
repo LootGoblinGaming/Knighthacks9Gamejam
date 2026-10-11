@@ -1,6 +1,7 @@
 #include "ArsenalInventoryComponent.h"
 #include "ArsenalWeaponBase.h"
 #include "GameFramework/Character.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/Pawn.h"
 #include "Engine/World.h"
 
@@ -45,18 +46,46 @@ AArsenalWeaponBase* UArsenalInventoryComponent::SpawnWeapon(TSubclassOf<AArsenal
 	}
 
 	USceneComponent* AttachTarget = nullptr;
-	if (ACharacter* OwningCharacter = Cast<ACharacter>(GetOwner()))
+	bool bAttachedToNamedMesh = false;
+
+	TArray<USkeletalMeshComponent*> OwnerMeshes;
+	GetOwner()->GetComponents<USkeletalMeshComponent>(OwnerMeshes);
+	for (USkeletalMeshComponent* OwnerMesh : OwnerMeshes)
 	{
-		AttachTarget = OwningCharacter->GetMesh();
+		if (OwnerMesh->GetFName() == WeaponAttachComponentName)
+		{
+			AttachTarget = OwnerMesh;
+			bAttachedToNamedMesh = true;
+			break;
+		}
 	}
-	else if (AActor* OwnerActor = GetOwner())
+
+	if (!AttachTarget)
 	{
-		AttachTarget = OwnerActor->GetRootComponent();
+		if (ACharacter* OwningCharacter = Cast<ACharacter>(GetOwner()))
+		{
+			AttachTarget = OwningCharacter->GetMesh();
+		}
+		else
+		{
+			AttachTarget = GetOwner()->GetRootComponent();
+		}
 	}
 
 	if (AttachTarget)
 	{
 		Weapon->AttachToComponent(AttachTarget, FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponAttachSocket);
+	}
+
+	// first-person arms are drawn with their own projection; the weapon has to match or it won't sit in the hands
+	if (bAttachedToNamedMesh && bRenderWeaponsFirstPerson)
+	{
+		TArray<UPrimitiveComponent*> WeaponPrimitives;
+		Weapon->GetComponents<UPrimitiveComponent>(WeaponPrimitives);
+		for (UPrimitiveComponent* Primitive : WeaponPrimitives)
+		{
+			Primitive->SetFirstPersonPrimitiveType(EFirstPersonPrimitiveType::FirstPerson);
+		}
 	}
 
 	Weapon->SetActorHiddenInGame(true);
